@@ -1,33 +1,47 @@
 package com.example.odyssey;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.odyssey.databinding.ActivityHomeBinding;
+import com.example.odyssey.fragments.HistoryFragment;
+import com.example.odyssey.fragments.HomeFragment;
+import com.example.odyssey.fragments.ProfileFragment;
+import com.example.odyssey.fragments.SettingFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setOnItemSelectedListener(menuItem -> {
+            Fragment fragment;
+
+            if (menuItem.getItemId() == R.id.navigation_profile) {
+                fragment = new ProfileFragment();
+            } else if (menuItem.getItemId() == R.id.navigation_history) {
+                fragment = new HistoryFragment();
+            } else if (menuItem.getItemId() == R.id.navigation_settings) {
+                fragment = new SettingFragment();
+            } else {
+                fragment = new HomeFragment();
+            }
+
+            load_fragment(fragment);
+            return true;
+        });
+
+        bottomNavigation.setSelectedItemId(R.id.navigation_home);
+    }
+
+    private void load_fragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, fragment).commit();
     }
 }
