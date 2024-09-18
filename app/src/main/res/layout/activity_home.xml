@@ -5,58 +5,53 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp">
 
         <ImageButton
             android:id="@+id/menuButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_alignParentStart="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_menu"
-            android:contentDescription="Menu Button"/>
+            android:background="@color/white"
+            android:src="@drawable/ic_menu" />
 
         <TextView
-            android:id="@+id/odysseyTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Odyssey"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp" />
+            android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/notification_icon"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="230dp"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="1dp"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_notification"
-            android:contentDescription="@string/notification_icon" />
+            android:src="@drawable/ic_notification" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/browse_brands_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/search_bar_container"
-        android:layout_marginTop="16dp">
+        android:layout_below="@+id/toolbar"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/browse_brands_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Browse by Brands"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="0dp"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -64,30 +59,33 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
         <TextView
             android:id="@+id/see_more_brands"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="See more"
-            android:textSize="14sp"
-            android:textColor="@color/material_dynamic_neutral20"
-            android:layout_marginEnd="8dp" />
+            android:textColor="@color/black"
+            android:textSize="14sp" />
     </LinearLayout>
 
+
     <LinearLayout
+        android:id="@+id/location_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_below="@+id/browse_brands_container"
         android:gravity="center_vertical"
-        android:layout_marginTop="50dp">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/ic_location"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="19dp"
-            android:src="@drawable/ic_location"
-            android:contentDescription="@string/location_icon" />
+            android:contentDescription="@string/location_icon"
+            android:src="@drawable/ic_location" />
 
         <TextView
             android:id="@+id/location_text"
@@ -103,21 +101,20 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginStart="200dp"
-            android:src="@drawable/profile_image_placeholder"
-            android:contentDescription="@string/profile_image_placeholder"/>
-
-
+            android:contentDescription="@string/profile_image_placeholder"
+            android:src="@drawable/profile_image_placeholder" />
 
     </LinearLayout>
-    <RelativeLayout
+
+    <LinearLayout
         android:id="@+id/search_bar_container"
         android:layout_width="398dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/ic_location"
-        android:layout_marginTop="90dp"
         android:layout_marginStart="11dp"
-        android:padding="12dp"
+        android:layout_marginTop="90dp"
         android:background="@drawable/search_bar_background"
+        android:padding="12dp"
         tools:ignore="NotSibling">
 
 
@@ -125,39 +122,33 @@
             android:id="@+id/search_icon"
             android:layout_width="24dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_search"
+            android:layout_alignParentStart="true"
             android:contentDescription="@string/search_icon"
-            android:layout_alignParentStart="true" />
+            android:src="@drawable/ic_search" />
 
         <EditText
             android:id="@+id/search_input"
             android:layout_width="300dp"
             android:layout_height="48dp"
-            android:layout_toEndOf="@id/search_icon"
             android:layout_marginStart="8dp"
-            android:hint="@string/search_hint"
-            android:text="search here"
+            android:layout_toEndOf="@id/search_icon"
             android:background="@android:color/transparent"
-            android:textColor="@android:color/black"
-            android:imeOptions="actionSearch" />
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:text="search here"
+            android:textColor="@android:color/black" />
 
         <ImageView
             android:id="@+id/filter_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_filter"
+            android:layout_alignParentEnd="true"
             android:contentDescription="@string/filter_icon"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
-        android:orientation="horizontal"
-        android:padding="8dp"/>
+            android:src="@drawable/ic_filter" />
+    </LinearLayout>
 
     <HorizontalScrollView
+        android:layout_below="@+id/search_bar_container"
         android:id="@+id/tabsSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -168,7 +159,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="200dp"
             android:padding="8dp">
 
             <Button
@@ -203,14 +193,23 @@
                 android:text="Van" />
         </LinearLayout>
     </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:orientation="horizontal"
+        android:padding="8dp"/>
+
+
     <LinearLayout
         android:id="@+id/available_cars_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_below="@id/browse_brands_container"
-        android:layout_marginTop="70dp">
+        android:layout_below="@id/tabsSection"
+        >
 
         <TextView
             android:id="@+id/available_cars_title"
@@ -233,16 +232,15 @@
             android:layout_height="wrap_content"
             android:text="See more"
             android:textSize="14sp"
-            android:textColor="@color/material_dynamic_neutral30"
+            android:textColor="@color/black"
             android:layout_marginEnd="8dp" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/tabsSection"
-        android:layout_above="@id/bottomNavigation"
-        android:layout_marginTop="25dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/available_cars_container"
+        android:layout_marginTop="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -252,6 +250,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/car_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -271,8 +270,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/carImage1"
                     android:layout_marginTop="8dp"
-                    android:text="Toyota Axios"
-                    />
+                    android:text="Toyota Axios" />
 
                 <TextView
                     android:id="@+id/carDetails1"
@@ -280,8 +278,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/carName1"
                     android:layout_marginTop="4dp"
-                    android:text="AC"
-                    />
+                    android:text="AC" />
 
                 <TextView
                     android:id="@+id/carRating1"
@@ -289,15 +286,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="160dp"
-                    android:text="4.9"
-                    />
+                    android:text="4.9" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="160dp"
-                    android:layout_toStartOf="@id/carRating1"
                     android:layout_marginEnd="4dp"
+                    android:layout_toStartOf="@id/carRating1"
                     android:src="@drawable/ic_star" />
 
                 <TextView
@@ -307,69 +303,7 @@
                     android:layout_below="@id/carRating1"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="4dp"
-                    android:text="5 Seats"
-                    />
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/car_item_background"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/carImage2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="160dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/car_image" />
-
-                <TextView
-                    android:id="@+id/carName2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/carImage2"
-                    android:layout_marginTop="8dp"
-                    android:text="Toyota Axios"
-                    />
-
-                <TextView
-                    android:id="@+id/carDetails2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/carName2"
-                    android:layout_marginTop="4dp"
-                    android:text="Non AC"
-                    />
-
-                <TextView
-                    android:id="@+id/carRating2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="160dp"
-                    android:text="4.9"
-                    />
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="160dp"
-                    android:layout_toStartOf="@id/carRating2"
-                    android:layout_marginEnd="4dp"
-                    android:src="@drawable/ic_star" />
-
-                <TextView
-                    android:id="@+id/carSeats2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/carRating2"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="4dp"
-                    android:text="5 Seats"
-                    />
+                    android:text="5 Seats" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -390,19 +324,19 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_profile"
-            android:contentDescription="Profile Button" />
+            android:contentDescription="Profile Button"
+            android:src="@drawable/ic_profile" />
 
         <ImageButton
             android:id="@+id/historyButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toEndOf="@id/profileButton"
             android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/profileButton"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_history"
-            android:contentDescription="History Button" />
+            android:contentDescription="History Button"
+            android:src="@drawable/ic_history" />
 
         <ImageButton
             android:id="@+id/ic_home"
@@ -410,30 +344,28 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_home"
-            android:contentDescription="Home Button" />
+            android:contentDescription="Home Button"
+            android:src="@drawable/ic_home" />
 
         <ImageButton
             android:id="@+id/settingsButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_settings"
-            android:contentDescription="Settings Button" />
+            android:contentDescription="Settings Button"
+            android:src="@drawable/ic_settings" />
 
         <ImageButton
             android:id="@+id/productButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toStartOf="@id/settingsButton"
             android:layout_marginEnd="24dp"
+            android:layout_toStartOf="@id/settingsButton"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_product"
-            android:contentDescription="Product Button" />
+            android:contentDescription="Product Button"
+            android:src="@drawable/ic_product" />
     </RelativeLayout>
-
-
 </RelativeLayout>

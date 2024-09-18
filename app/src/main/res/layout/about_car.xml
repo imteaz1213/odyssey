@@ -1,0 +1,5 @@
+<TextView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:justificationMode="inter_word"
+    android:text="The Honda Fit, also known as the Honda Jazz in some markets, is a subcompact car renowned for its exceptional versatility and fuel efficiency. Featuring a spacious and cleverly designed interior, the Fit offers a surprising amount of cargo space thanks to its innovative Magic Seat system, which allows for multiple seating and cargo configurations. Its compact size and agile handling make it ideal for city driving, while its reliable performance and advanced safety features ensure a comfortable and secure ride. The Honda Fit is a popular choice among budget-conscious drivers and rental car companies for its practicality and economy."
+    xmlns:android="http://schemas.android.com/apk/res/android" />
