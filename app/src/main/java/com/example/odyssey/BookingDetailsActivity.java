@@ -65,14 +65,14 @@ public class BookingDetailsActivity extends AppCompatActivity {
         cancelButton = findViewById(R.id.cancel_button);
 
         // Set listeners for buttons
-//        advancePaymentButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Create an Intent to start the second activity
-//                Intent intent = new Intent(BookingDetailsActivity.this, PaymentDetailsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        advancePaymentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to start the second activity
+                Intent intent = new Intent(BookingDetailsActivity.this, PaymentDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         cancelButton.setOnClickListener(view -> {
             // Handle cancel button click
