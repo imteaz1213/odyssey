@@ -100,14 +100,14 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Karim"
+                            android:text="Rahim"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="karim@gmail.com"
+                            android:text="rahim@gmail.com"
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
