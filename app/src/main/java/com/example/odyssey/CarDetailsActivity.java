@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,22 +15,35 @@ public class CarDetailsActivity extends AppCompatActivity implements View.OnClic
 
     private ImageView mainCarImage;
     private LinearLayout carDetailsTabContainer;
+    private Button book_now_button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
+        book_now_button=findViewById(R.id.bottomBtn);
 
-        setupHeader();
+        book_now_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to start the second activity
+                Toast.makeText(CarDetailsActivity.this, "Button Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(CarDetailsActivity.this, BookingDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+       // setupHeader();
         setupMainImage();
         setupImageSlider();
         setupTabButtons();
     }
 
-    private void setupHeader() {
-        Button bottomBtn = findViewById(R.id.bottomBtn);
-        bottomBtn.setOnClickListener(this);
-    }
+//    private void setupHeader() {
+//        Button bottomBtn = findViewById(R.id.bottomBtn);
+//        bottomBtn.setOnClickListener(this);
+//    }
 
     private void setupMainImage() {
         mainCarImage = findViewById(R.id.main_car_image);
@@ -85,4 +99,6 @@ public class CarDetailsActivity extends AppCompatActivity implements View.OnClic
         View aboutCarView = getLayoutInflater().inflate(layoutId, carDetailsTabContainer, false);
         carDetailsTabContainer.addView(aboutCarView);
     }
+
+
 }
