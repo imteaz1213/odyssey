@@ -2,38 +2,37 @@ package com.example.odyssey;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.odyssey.databinding.ActivitySignupBinding;
-
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SignupActivity extends AppCompatActivity {
+    private Spinner roleSpinner;
+    private Button signupBtn;
+    private TextView signinLink;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        Spinner spinner = findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        roleSpinner = findViewById(R.id.roleSpinner);
+        signupBtn = findViewById(R.id.signupBtn);
+        signinLink = findViewById(R.id.signinLink);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roleSpinner.setAdapter(adapter);
+        roleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item =  parent.getItemAtPosition(position).toString();
-                Toast.makeText(SignupActivity.this, "Select item"+item, Toast.LENGTH_SHORT).show();
+                String selectedRole = parent.getItemAtPosition(position).toString();
+                Toast.makeText(SignupActivity.this, selectedRole, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -41,23 +40,14 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Renter");
-        arrayList.add("Owner");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,arrayList);
-        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
-        spinner.setAdapter(adapter);
 
-        TextView login;
-
-        login = findViewById(R.id.login);
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(SignupActivity.this, SigninActivity.class);
-                startActivity(intent);
-            }
+        signupBtn.setOnClickListener(v -> {
+            startActivity(new Intent(SignupActivity.this, HomeActivity.class));
         });
+        signinLink.setOnClickListener(v -> {
+            startActivity(new Intent(SignupActivity.this, SigninActivity.class));
+        });
+
+
     }
 }
