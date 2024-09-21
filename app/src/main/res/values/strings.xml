@@ -33,6 +33,8 @@
     <string name="user_name">Rahim Hasan</string>
     <string name="user_email">rahim@gmail.com</string>
     <string name="availability_calendar">Availability Calendar</string>
+    <string name="days_ago">0 Days Ago</string>
+    <string name="review">Excellent</string>
 
     <string-array name="roles">
         <item>Driver</item>
