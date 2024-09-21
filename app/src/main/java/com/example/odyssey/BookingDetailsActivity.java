@@ -42,7 +42,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.booking_details_activity);
+        setContentView(R.layout.activity_booking_details);
 
         // Initialize views
         backButton=findViewById(R.id.back_button);
