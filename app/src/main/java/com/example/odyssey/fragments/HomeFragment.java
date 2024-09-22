@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.odyssey.CarDetailsActivity;
+import com.example.odyssey.NotificationActivity;
 import com.example.odyssey.R;
 import com.example.odyssey.adaptars.HomeCarItemAdaptar;
 import com.example.odyssey.models.HomeCarItemModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.List;
 public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemClickListener {
     private RecyclerView homeCarItemContainer;
     private HomeCarItemAdaptar carItemAdapter;
+    private FloatingActionButton fab_filter;
     private List<HomeCarItemModel> itemList = new ArrayList<>();
 
     @Override
@@ -30,7 +33,11 @@ public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemC
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         homeCarItemContainer = view.findViewById(R.id.home_car_item_container);
-
+        fab_filter = view.findViewById(R.id.fab_filter);
+        fab_filter.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), NotificationActivity.class));
+        });
+        
         int[] carImages = {
                 R.drawable.car1,
                 R.drawable.car2,
