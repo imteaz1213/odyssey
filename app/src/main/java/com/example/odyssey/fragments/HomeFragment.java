@@ -57,6 +57,8 @@ public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemC
         carItemAdapter = new HomeCarItemAdaptar(itemList, this);
         homeCarItemContainer.setAdapter(carItemAdapter);
 
+        layoutManager.scrollToPosition(Integer.MAX_VALUE / 2);
+
         return view;
     }
 

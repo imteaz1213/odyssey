@@ -59,13 +59,14 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
 
     @Override
     public void onBindViewHolder(@NonNull HomeCarItemViewHolder holder, int position) {
-        HomeCarItemModel currentItem = itemList.get(position);
+        int actualPosition = position % itemList.size();
+        HomeCarItemModel currentItem = itemList.get(actualPosition);
         holder.title.setText(currentItem.getTitle());
         holder.image.setImageResource(currentItem.getImage());
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return Integer.MAX_VALUE;
     }
 }
