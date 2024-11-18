@@ -6,11 +6,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.odyssey.api.ApiService;
+import com.example.odyssey.api.RetrofitClient;
+import com.example.odyssey.models.LoginRequest;
+import com.example.odyssey.models.LoginResponse;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -57,6 +66,30 @@ public class SigninActivity extends AppCompatActivity {
 
     }
     private void loginUser(String email, String password) {
-        System.out.println(email + " "+ password);
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<LoginResponse> call = apiService.loginUser(new LoginRequest(email, password));
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+                    Toast.makeText(SigninActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    if ("true".equals(loginResponse.isStatus())) {
+                        getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE).edit().putString("authToken", loginResponse.getToken()).apply();
+                        startActivity(new Intent(SigninActivity.this, HomeActivity.class));
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(SigninActivity.this, "Failed to log in", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(SigninActivity.this, "Network error occurred", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }
