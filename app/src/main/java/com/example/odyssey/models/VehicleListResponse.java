@@ -2,15 +2,15 @@ package com.example.odyssey.models;
 
 import java.util.List;
 
-public class VehicleResponse {
+public class VehicleListResponse {
     private String status;
     private String message;
-    private VehicleModel vehicle;
+    private List<VehicleModel> data;
 
-    public VehicleResponse(String status, String message, VehicleModel vehicle) {
+    public VehicleListResponse(String status, String message, List<VehicleModel> data) {
         this.status = status;
         this.message = message;
-        this.vehicle = vehicle;
+        this.data = data;
     }
 
     public String getStatus() {
@@ -21,7 +21,7 @@ public class VehicleResponse {
         return message;
     }
 
-    public VehicleModel getData() {
-        return vehicle;
+    public List<VehicleModel> getData() {
+        return data;
     }
 }

@@ -4,6 +4,8 @@ import com.example.odyssey.models.LoginRequest;
 import com.example.odyssey.models.LoginResponse;
 import com.example.odyssey.models.RegistrationRequest;
 import com.example.odyssey.models.RegistrationResponse;
+import com.example.odyssey.models.VehicleListResponse;
+import com.example.odyssey.models.VehicleModel;
 import com.example.odyssey.models.VehicleResponse;
 
 import retrofit2.Call;
@@ -20,7 +22,7 @@ public interface ApiService {
     Call<RegistrationResponse> userRegistration(@Body RegistrationRequest registrationRequest);
 
     @GET("vehicle/vehicle-list.php")
-    Call<VehicleResponse> getAllVehicles();
+    Call<VehicleListResponse> getAllVehicles();
 
     @GET("vehicle/vehicle-list.php")
     Call<VehicleResponse> getVehicleById(@Query("vehicleId") int vehicleId);

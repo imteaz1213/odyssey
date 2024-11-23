@@ -20,7 +20,7 @@ import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
 import com.example.odyssey.models.HomeCarItemModel;
 import com.example.odyssey.models.VehicleModel;
-import com.example.odyssey.models.VehicleResponse;
+import com.example.odyssey.models.VehicleListResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -44,14 +44,12 @@ public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemC
         fab_filter = view.findViewById(R.id.fab_filter);
         fab_filter.setOnClickListener(v -> startActivity(new Intent(getContext(), NotificationActivity.class)));
 
-        // Set up RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         homeCarItemContainer.setLayoutManager(layoutManager);
 
         carItemAdapter = new HomeCarItemAdaptar(itemList, this);
         homeCarItemContainer.setAdapter(carItemAdapter);
 
-        // Fetch data from API
         fetchVehicles();
 
         return view;
@@ -67,24 +65,24 @@ public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemC
 
     private void fetchVehicles() {
         ApiService apiService = RetrofitClient.getApiService();
-        Call<VehicleResponse> call = apiService.getAllVehicles();
+        Call<VehicleListResponse> call = apiService.getAllVehicles();
 
-        call.enqueue(new Callback<VehicleResponse>() {
+        call.enqueue(new Callback<VehicleListResponse>() {
 
             @Override
-            public void onResponse(Call<VehicleResponse> call, Response<VehicleResponse> response) {
+            public void onResponse(Call<VehicleListResponse> call, Response<VehicleListResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    VehicleResponse vehicleResponse = response.body();
-                    if ("true".equals(vehicleResponse.getStatus())) {
+                    VehicleListResponse vehicleListResponse = response.body();
+                    if ("true".equals(vehicleListResponse.getStatus())) {
                         itemList.clear();
 
-                        for (VehicleModel vehicle : vehicleResponse.getData()) {
+                        for (VehicleModel vehicle : vehicleListResponse.getData()) {
                             itemList.add(new HomeCarItemModel(String.valueOf(vehicle.getDriver_id()), vehicle.getMain_image()));
                         }
 
                         carItemAdapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(getContext(), vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), vehicleListResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(getContext(), "Failed to fetch vehicles.", Toast.LENGTH_SHORT).show();
@@ -92,7 +90,7 @@ public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemC
             }
 
             @Override
-            public void onFailure(Call<VehicleResponse> call, Throwable t) {
+            public void onFailure(Call<VehicleListResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
