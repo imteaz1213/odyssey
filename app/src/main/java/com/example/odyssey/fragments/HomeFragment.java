@@ -16,11 +16,19 @@ import com.example.odyssey.CarDetailsActivity;
 import com.example.odyssey.NotificationActivity;
 import com.example.odyssey.R;
 import com.example.odyssey.adaptars.HomeCarItemAdaptar;
+import com.example.odyssey.api.ApiService;
+import com.example.odyssey.api.RetrofitClient;
 import com.example.odyssey.models.HomeCarItemModel;
+import com.example.odyssey.models.VehicleModel;
+import com.example.odyssey.models.VehicleResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemClickListener {
     private RecyclerView homeCarItemContainer;
@@ -34,28 +42,17 @@ public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemC
 
         homeCarItemContainer = view.findViewById(R.id.home_car_item_container);
         fab_filter = view.findViewById(R.id.fab_filter);
-        fab_filter.setOnClickListener(v -> {
-            startActivity(new Intent(getContext(), NotificationActivity.class));
-        });
-        
-        int[] carImages = {
-                R.drawable.car1,
-                R.drawable.car2,
-                R.drawable.car3,
-                R.drawable.car4,
-                R.drawable.car5,
-                R.drawable.car6
-        };
+        fab_filter.setOnClickListener(v -> startActivity(new Intent(getContext(), NotificationActivity.class)));
 
-        for (int i = 1; i <= 6; i++) {
-            itemList.add(new HomeCarItemModel("Car Item " + i, carImages[i-1]));
-        }
-
+        // Set up RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         homeCarItemContainer.setLayoutManager(layoutManager);
 
         carItemAdapter = new HomeCarItemAdaptar(itemList, this);
         homeCarItemContainer.setAdapter(carItemAdapter);
+
+        // Fetch data from API
+        fetchVehicles();
 
         return view;
     }
@@ -66,5 +63,38 @@ public class HomeFragment extends Fragment implements HomeCarItemAdaptar.OnItemC
         intent.putExtra("carId", position);
         startActivity(intent);
         Toast.makeText(getContext(), "Clicked item at position " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    private void fetchVehicles() {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<VehicleResponse> call = apiService.getAllVehicles();
+
+        call.enqueue(new Callback<VehicleResponse>() {
+
+            @Override
+            public void onResponse(Call<VehicleResponse> call, Response<VehicleResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    VehicleResponse vehicleResponse = response.body();
+                    if ("true".equals(vehicleResponse.getStatus())) {
+                        itemList.clear();
+
+                        for (VehicleModel vehicle : vehicleResponse.getData()) {
+                            itemList.add(new HomeCarItemModel(String.valueOf(vehicle.getDriver_id()), vehicle.getMain_image()));
+                        }
+
+                        carItemAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getContext(), vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to fetch vehicles.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VehicleResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

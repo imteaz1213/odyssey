@@ -2,9 +2,9 @@ package com.example.odyssey.models;
 
 public class HomeCarItemModel {
     private String title;
-    private int image;
+    private String image;
 
-    public HomeCarItemModel(String title, int image) {
+    public HomeCarItemModel(String title, String image) {
         this.title = title;
         this.image = image;
     }
@@ -13,7 +13,7 @@ public class HomeCarItemModel {
         return title;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
