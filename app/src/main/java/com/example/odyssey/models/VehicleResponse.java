@@ -5,12 +5,12 @@ import java.util.List;
 public class VehicleResponse {
     private String status;
     private String message;
-    private VehicleModel vehicle;
+    private VehicleModel data;
 
-    public VehicleResponse(String status, String message, VehicleModel vehicle) {
+    public VehicleResponse(String status, String message, VehicleModel data) {
         this.status = status;
         this.message = message;
-        this.vehicle = vehicle;
+        this.data = data;
     }
 
     public String getStatus() {
@@ -22,6 +22,6 @@ public class VehicleResponse {
     }
 
     public VehicleModel getData() {
-        return vehicle;
+        return data;
     }
 }
