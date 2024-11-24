@@ -1,6 +1,8 @@
 package com.example.odyssey;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     private ImageView main_car_image;
     private LinearLayout imageContainer;
     private TextView car_title;
+    private Button bookNowButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,8 @@ public class CarDetailsActivity extends AppCompatActivity {
         main_car_image = findViewById(R.id.main_car_image);
         car_title = findViewById(R.id.car_title);
         imageContainer = findViewById(R.id.horizontal_images_container);
+        bookNowButton = findViewById(R.id.bottomBtn);
+
 //        String carId = getIntent().getStringExtra("CAR_ID");
         String carId = "2";
         if (carId != null) {
@@ -37,6 +42,11 @@ public class CarDetailsActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show();
         }
+
+        bookNowButton.setOnClickListener(v -> {
+            startActivity(new Intent(this, BookingDetailsActivity.class));
+        });
+
     }
 
     private void setupImageSlider(String mainImage, String frontImage, String backImage, String leftImage, String rightImage, String interiorImage) {
