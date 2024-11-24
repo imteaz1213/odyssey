@@ -27,15 +27,15 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
     }
 
     public class HomeCarItemViewHolder extends RecyclerView.ViewHolder {
-        TextView homeCarItemTitle;
-        TextView carRating;
-        ImageView mainImage;
+        private TextView homeCarItemTitle;
+        private TextView carRating;
+        private ImageView home_car_item_image;
 
         public HomeCarItemViewHolder(@NonNull View itemView) {
             super(itemView);
             homeCarItemTitle = itemView.findViewById(R.id.home_car_item_title);
             carRating = itemView.findViewById(R.id.car_rating);
-            mainImage = itemView.findViewById(R.id.main_image);
+            home_car_item_image = itemView.findViewById(R.id.home_car_item_image);
         }
     }
 
@@ -52,15 +52,17 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
 
         holder.homeCarItemTitle.setText(vehicle.getModel());
         holder.carRating.setText(String.valueOf(vehicle.getDriver_id()));
-        Glide.with(holder.mainImage.getContext())
+
+        Glide.with(holder.home_car_item_image.getContext())
                 .load(vehicle.getMain_image()) 
-                .placeholder(R.drawable.car1)
-                .into(holder.mainImage);
+                .error(R.drawable.car1)
+                .into(holder.home_car_item_image);
 
         holder.itemView.setOnClickListener(v -> {
             Toast.makeText(holder.itemView.getContext(),
                     "Car ID: " + vehicle.getVehicle_id(),
                     Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(v.getContext(), CarDetailsActivity.class);
             intent.putExtra("CAR_ID", vehicle.getVehicle_id());
             v.getContext().startActivity(intent);
