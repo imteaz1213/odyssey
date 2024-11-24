@@ -32,17 +32,17 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/main_image"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_star"
-                app:layout_constraintEnd_toStartOf="@+id/carRating1"
+                app:layout_constraintEnd_toStartOf="@+id/car_rating"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/carRating1"
+                android:id="@+id/car_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"

@@ -10,62 +10,60 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.odyssey.R;
-import com.example.odyssey.models.HomeCarItemModel;
+import com.example.odyssey.models.VehicleModel;
 
 import java.util.List;
 
 public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.HomeCarItemViewHolder> {
 
-    private List<HomeCarItemModel> itemList;
-    private final OnItemClickListener listener;
+    private List<VehicleModel> vehicleList;
 
-    public HomeCarItemAdaptar(List<HomeCarItemModel> itemList, OnItemClickListener listener) {
-        this.itemList = itemList;
-        this.listener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
+    public HomeCarItemAdaptar(List<VehicleModel> vehicleList) {
+        this.vehicleList = vehicleList;
     }
 
     public class HomeCarItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public ImageView image;
+        TextView homeCarItemTitle;
+        TextView carRating;
+        ImageView mainImage;
 
-        public HomeCarItemViewHolder(View view) {
-            super(view);
-            title = view.findViewById(R.id.home_car_item_title);
-            image = view.findViewById(R.id.home_car_item_image);
-
-            view.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position);
-                    }
-                }
-            });
+        public HomeCarItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+            homeCarItemTitle = itemView.findViewById(R.id.home_car_item_title);
+            carRating = itemView.findViewById(R.id.car_rating);
+            mainImage = itemView.findViewById(R.id.main_image);
         }
     }
 
     @NonNull
     @Override
-    public HomeCarItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.home_car_card_item, parent, false);
-        return new HomeCarItemViewHolder(itemView);
+    public HomeCarItemAdaptar.HomeCarItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_car_card_item, parent, false);
+        return new HomeCarItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeCarItemViewHolder holder, int position) {
-        HomeCarItemModel currentItem = itemList.get(position);
-        holder.title.setText(currentItem.getTitle());
-//        holder.image.setImageResource(currentItem.getImage());
+    public void onBindViewHolder(@NonNull HomeCarItemAdaptar.HomeCarItemViewHolder holder, int position) {
+        VehicleModel vehicle = vehicleList.get(position);
+
+        holder.homeCarItemTitle.setText(vehicle.getModel());
+        holder.carRating.setText(String.valueOf(vehicle.getDriver_id()));
+        Glide.with(holder.mainImage.getContext())
+                .load(vehicle.getMain_image()) 
+                .placeholder(R.drawable.car1)
+                .into(holder.mainImage);
+
+        holder.itemView.setOnClickListener(v -> {
+            Toast.makeText(holder.itemView.getContext(),
+                    "Car ID: " + vehicle.getVehicle_id(),
+                    Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return vehicleList.size();
     }
 }
