@@ -2,6 +2,8 @@ package com.example.odyssey;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,19 +18,48 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CarDetailsActivity extends AppCompatActivity {
+    private ImageView horizontalImage;
     private ImageView main_car_image;
+    private LinearLayout imageContainer;
+    private TextView car_title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
 
         main_car_image = findViewById(R.id.main_car_image);
+        car_title = findViewById(R.id.car_title);
+        imageContainer = findViewById(R.id.horizontal_images_container);
 //        String carId = getIntent().getStringExtra("CAR_ID");
         String carId = "2";
         if (carId != null) {
             fetchVehicleById(Integer.parseInt(carId));
         } else {
             Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setupImageSlider(String mainImage, String frontImage, String backImage, String leftImage, String rightImage, String interiorImage) {
+        String[] imageIds = { mainImage, frontImage, backImage, leftImage, rightImage, interiorImage};
+
+        for (String imageId : imageIds) {
+            horizontalImage = new ImageView(this);
+            horizontalImage.setLayoutParams(new LinearLayout.LayoutParams(300, 150));
+            horizontalImage.setPadding(10, 0, 10, 0);
+
+            Glide.with(this)
+                    .load(imageId)
+                    .error(R.drawable.car1)
+                    .into(horizontalImage);
+
+            horizontalImage.setOnClickListener(v ->
+                    Glide.with(this)
+                            .load(imageId)
+                            .error(R.drawable.car1)
+                            .into(main_car_image)
+            );
+
+            imageContainer.addView(horizontalImage);
         }
     }
 
@@ -42,14 +73,22 @@ public class CarDetailsActivity extends AppCompatActivity {
                     VehicleResponse vehicleResponse = response.body();
 
                     if ("true".equals(vehicleResponse.getStatus())) {
-                        System.out.println("Hello");
-                        System.out.println(vehicleResponse.getData().getVehicle_id());
-                        Toast.makeText(CarDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        Glide.with(CarDetailsActivity.this)
+                         Glide.with(CarDetailsActivity.this)
                                 .load(vehicleResponse.getData().getMain_image())
                                 .placeholder(R.drawable.car1)
                                 .error(R.drawable.car1)
                                 .into(main_car_image);
+
+                        car_title.setText(vehicleResponse.getData().getModel());
+                        setupImageSlider(
+                                vehicleResponse.getData().getMain_image(),
+                                vehicleResponse.getData().getFront_image(),
+                                vehicleResponse.getData().getBack_image(),
+                                vehicleResponse.getData().getLeft_image(),
+                                vehicleResponse.getData().getRight_image(),
+                                vehicleResponse.getData().getInterior_image()
+                                );
+
                     } else {
                         Toast.makeText(CarDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
