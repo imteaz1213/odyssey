@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -36,6 +37,13 @@ public class CarDetailsActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_container);
         bookNowButton = findViewById(R.id.bottomBtn);
         imageContainer = findViewById(R.id.horizontal_images_container);
+
+        String carId = getIntent().getStringExtra("CAR_ID");
+        if (carId != null) {
+            System.out.println("Car ID: " + carId);
+        } else {
+            Toast.makeText(this, "No Car ID received", Toast.LENGTH_SHORT).show();
+        }
 
         bookNowButton.setOnClickListener(v -> {
             startActivity(new Intent(this, BookingDetailsActivity.class));

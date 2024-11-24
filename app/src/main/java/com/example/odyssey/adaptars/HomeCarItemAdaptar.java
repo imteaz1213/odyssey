@@ -1,5 +1,6 @@
 package com.example.odyssey.adaptars;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.odyssey.CarDetailsActivity;
 import com.example.odyssey.R;
 import com.example.odyssey.models.VehicleModel;
 
@@ -59,6 +61,10 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
             Toast.makeText(holder.itemView.getContext(),
                     "Car ID: " + vehicle.getVehicle_id(),
                     Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(v.getContext(), CarDetailsActivity.class);
+            intent.putExtra("CAR_ID", vehicle.getVehicle_id());
+            v.getContext().startActivity(intent);
+
         });
     }
 
