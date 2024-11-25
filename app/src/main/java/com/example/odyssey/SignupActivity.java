@@ -67,7 +67,6 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedRole = parent.getItemAtPosition(position).toString();
-                Toast.makeText(SignupActivity.this, selectedRole, Toast.LENGTH_SHORT).show();
             }
 
             @Override
