@@ -35,19 +35,24 @@ public class CarDetailsActivity extends AppCompatActivity {
         imageContainer = findViewById(R.id.horizontal_images_container);
         bookNowButton = findViewById(R.id.bottomBtn);
 
-//        String carId = getIntent().getStringExtra("CAR_ID");
-        String carId = "2";
+        String carId = getIntent().getStringExtra("CAR_ID");
         if (carId != null) {
-            fetchVehicleById(Integer.parseInt(carId));
+            try {
+                int vehicleId = Integer.parseInt(carId);
+                fetchVehicleById(vehicleId);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid vehicle ID", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Car ID not provided!", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         bookNowButton.setOnClickListener(v -> {
             startActivity(new Intent(this, BookingDetailsActivity.class));
         });
-
     }
+
 
     private void setupImageSlider(String mainImage, String frontImage, String backImage, String leftImage, String rightImage, String interiorImage) {
         String[] imageIds = { mainImage, frontImage, backImage, leftImage, rightImage, interiorImage};

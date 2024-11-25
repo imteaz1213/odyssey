@@ -59,15 +59,15 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
                 .into(holder.home_car_item_image);
 
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(holder.itemView.getContext(),
-                    "Car ID: " + vehicle.getVehicle_id(),
-                    Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(v.getContext(), CarDetailsActivity.class);
-            intent.putExtra("CAR_ID", vehicle.getVehicle_id());
-            v.getContext().startActivity(intent);
-
+            if (String.valueOf(vehicle.getVehicle_id()) != null) {
+                Intent intent = new Intent(v.getContext(), CarDetailsActivity.class);
+                intent.putExtra("CAR_ID", String.valueOf(vehicle.getVehicle_id()));
+                v.getContext().startActivity(intent);
+            } else {
+                Toast.makeText(holder.itemView.getContext(), "Vehicle ID is invalid!", Toast.LENGTH_SHORT).show();
+            }
         });
+
     }
 
     @Override
