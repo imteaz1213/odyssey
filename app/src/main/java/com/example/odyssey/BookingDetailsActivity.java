@@ -27,7 +27,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
 
 
     private static final String TAG = "BookingDetailsActivity";
-    private ImageView carImage,backButton;
+    private ImageView carImage;
     private CalendarView pickupDatePicker;
     private TextView carDetails;
     private TextView carRating;
@@ -38,14 +38,12 @@ public class BookingDetailsActivity extends AppCompatActivity {
     private Button advancePaymentButton, cancelButton;
     private DatePickerDialog.OnDateSetListener dateSet;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_details);
 
         // Initialize views
-        backButton=findViewById(R.id.back_button);
         carImage = findViewById(R.id.car_image);
         carDetails = findViewById(R.id.car_name);
         carRating = findViewById(R.id.car_rating);
@@ -60,22 +58,18 @@ public class BookingDetailsActivity extends AppCompatActivity {
         ownerEmail = findViewById(R.id.owner_email);
         renterName = findViewById(R.id.renter_name);
         renterEmail = findViewById(R.id.renter_email);
-//        availabilityCalendar = findViewById(R.id.availability_calendar);
         advancePaymentButton = findViewById(R.id.advance_payment_button);
         cancelButton = findViewById(R.id.cancel_button);
 
-        // Set listeners for buttons
         advancePaymentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an Intent to start the second activity
                 Intent intent = new Intent(BookingDetailsActivity.this, PaymentDetailsActivity.class);
                 startActivity(intent);
             }
         });
 
         cancelButton.setOnClickListener(view -> {
-            // Handle cancel button click
         });
         pickupDate.setOnClickListener(new View.OnClickListener() {
             @Override

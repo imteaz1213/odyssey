@@ -11,7 +11,6 @@ import android.widget.TextView;
 public class PaymentDetailsActivity extends Activity {
 
     private TextView tvTitle,pickupDateTimeValue,returnDateTimeValue;
-    private ImageView backButton;
     private TextView pickupDateTime;
     private TextView returnDateTime;
     private TextView totalDuration;
@@ -29,7 +28,6 @@ public class PaymentDetailsActivity extends Activity {
 
         // Initialize views
         tvTitle = findViewById(R.id.tv_title);
-        backButton = findViewById(R.id.back_button);
         pickupDateTime = findViewById(R.id.pickup_date_time);
         pickupDateTimeValue = findViewById(R.id.pickup_date_time_value);
         returnDateTime = findViewById(R.id.return_date_time);
@@ -49,20 +47,6 @@ public class PaymentDetailsActivity extends Activity {
         advancePaymentButton = findViewById(R.id.advance_payment_button);
         cancelButton= findViewById(R.id.cancel_button);
 
-        // Set onClickListener for back button
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed(); // Or handle back navigation as needed
-            }
-        });
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed(); // Or handle back navigation as needed
-            }
-        });
-        // Set onClickListener for send request button
         advancePaymentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,4 +67,3 @@ public class PaymentDetailsActivity extends Activity {
         advanceAmountValue.setText("3100*50%=1600 ৳");
     }
 }
-

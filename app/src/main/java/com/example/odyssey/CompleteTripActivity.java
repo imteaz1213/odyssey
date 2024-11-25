@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CompleteTripActivity extends AppCompatActivity {
 
-    private ImageView carImage, backButton, ratingStar, pdateImage, ptimeImage, rdateImage, rtimeImage;
-    private TextView tvTitle, carName, carRating, pickupDatePickerHint, pickupTimePickerHint,
+    private ImageView carImage, ratingStar, pdateImage, ptimeImage, rdateImage, rtimeImage;
+    private TextView carName, carRating, pickupDatePickerHint, pickupTimePickerHint,
             returnDatePickerHint, returnTimePickerHint, totalDistance, numberOfPassengers,
             numberOfStoppages, additionalInfo, ownerName, ownerEmail, renterName, renterEmail,
             acFeatureAmount, distanceFeatureAmount, totalAmount, advanceAmount;
@@ -26,9 +26,7 @@ public class CompleteTripActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_trip);
 
-        tvTitle = findViewById(R.id.tv_title);
         carImage = findViewById(R.id.car_image);
-        backButton = findViewById(R.id.back_button);
         carName = findViewById(R.id.car_name);
         carRating = findViewById(R.id.car_rating);
         ratingStar = findViewById(R.id.rating_star);
@@ -76,19 +74,7 @@ public class CompleteTripActivity extends AppCompatActivity {
         totalAmount.setText("3100 ৳");
         advanceAmount.setText("3100*50%=1600 ৳");
 
-//        completeTripButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent= new Intent(CompleteTripActivity.this,TripReview.class);
-//                startActivity(intent);
-//            }
-//        });
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed(); // Or handle back navigation as needed
-            }
-        });
+
     }
 }
 

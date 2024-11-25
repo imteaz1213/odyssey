@@ -12,26 +12,6 @@
         android:orientation="vertical"
         android:padding="16dp"
         >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Trip Overall Details"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/back_button"
-                android:layout_width="53dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:src="@drawable/ic_back_arrow" />
-        </RelativeLayout>
         <!-- Car Image -->
         <ImageView
             android:id="@+id/car_image"
@@ -40,9 +20,6 @@
             android:contentDescription="Car Image"
             android:scaleType="centerCrop"
             android:src="@drawable/car_pic" />
-
-        <!-- Car Details -->
-
 
         <!-- Pickup Date and Time -->
         <LinearLayout
@@ -58,7 +35,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Toyota Axios"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -67,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.9"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -474,7 +451,7 @@
 
                 android:backgroundTint="@color/green"
                 android:text="Complete Trip"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
                 android:visibility="visible"
                 tools:visibility="visible" />
