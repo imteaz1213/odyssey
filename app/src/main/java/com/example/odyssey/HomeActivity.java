@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import com.example.odyssey.fragments.HistoryFragment;
 import com.example.odyssey.fragments.HomeFragment;
 import com.example.odyssey.fragments.ProfileFragment;
+import com.example.odyssey.fragments.RequestFragment;
 import com.example.odyssey.fragments.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,6 +31,8 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = new HistoryFragment();
             } else if (menuItem.getItemId() == R.id.navigation_settings) {
                 fragment = new SettingFragment();
+            } else if (menuItem.getItemId() == R.id.navigation_request) {
+                fragment = new RequestFragment();
             } else {
                 fragment = new HomeFragment();
             }
