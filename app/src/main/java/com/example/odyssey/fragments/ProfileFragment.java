@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.odyssey.MakeComplainActivity;
 import com.example.odyssey.R;
 import com.example.odyssey.SigninActivity;
 import com.example.odyssey.api.ApiService;
@@ -28,6 +29,9 @@ import retrofit2.Response;
 public class ProfileFragment extends Fragment {
 
     private LinearLayout logoutBtn;
+    private LinearLayout complainBtn;
+    private LinearLayout leaveBtn;
+    private LinearLayout historyBtn;
     private SharedPreferences sharedPreferences;
     private String bearerToken;
     private TextView profileName, mobileNumber;
@@ -37,6 +41,9 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         logoutBtn = view.findViewById(R.id.logoutBtn);
+        complainBtn = view.findViewById(R.id.complainBtn);
+        leaveBtn = view.findViewById(R.id.leaveBtn);
+        historyBtn = view.findViewById(R.id.historyBtn);
         profileName = view.findViewById(R.id.profileName);
         mobileNumber = view.findViewById(R.id.mobileNumber);
 
@@ -44,6 +51,9 @@ public class ProfileFragment extends Fragment {
         bearerToken = sharedPreferences.getString("authToken", null);
 
         logoutBtn.setOnClickListener(v -> logout());
+        complainBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
+        // leaveBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
+//        historyBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
 
         if (bearerToken == null) {
             Toast.makeText(getContext(), "Unauthorized User", Toast.LENGTH_LONG).show();
