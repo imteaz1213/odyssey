@@ -136,6 +136,92 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20sp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dropoff Date"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/dropoff_date_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:clickable="true"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/dropoff_datepicker_hint"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Select Date"
+                        android:layout_marginRight="20dp"
+                        android:textSize="18sp"
+                        />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_calendar" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dropoff Time"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/dropoff_time_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:clickable="true"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/dropoff_timepicker_hint"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Select Time"
+                        android:textSize="18sp"
+                        android:layout_marginRight="20dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_clock" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <!-- Owner and Renter Details -->
         <LinearLayout

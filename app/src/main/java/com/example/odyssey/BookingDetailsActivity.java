@@ -33,10 +33,12 @@ public class BookingDetailsActivity extends AppCompatActivity {
     private TextView car_rating;
     private LinearLayout pickup_date_container;
     private LinearLayout pickup_time_container;
+    private LinearLayout dropoff_date_container;
+    private LinearLayout dropoff_time_container;
     private TextView pickupDate;
     private TextView pickupTime;
-    private TextView returnDate;
-    private TextView returnTime;
+    private TextView dropoffDate;
+    private TextView dropoffTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,11 +51,13 @@ public class BookingDetailsActivity extends AppCompatActivity {
 
         pickup_date_container = findViewById(R.id.pickup_date_container);
         pickup_time_container = findViewById(R.id.pickup_time_container);
+        dropoff_date_container = findViewById(R.id.dropoff_date_container);
+        dropoff_time_container = findViewById(R.id.dropoff_time_container);
 
         pickupDate = findViewById(R.id.pickup_datepicker_hint);
         pickupTime = findViewById(R.id.pickup_timepicker_hint);
-//        returnDate = findViewById(R.id.return_date_picker_hint);
-//        returnTime = findViewById(R.id.return_date_time_hint);
+        dropoffDate = findViewById(R.id.dropoff_datepicker_hint);
+        dropoffTime = findViewById(R.id.dropoff_timepicker_hint);
 
         String carId = getIntent().getStringExtra("CAR_ID");
         if (carId != null) {
@@ -71,6 +75,8 @@ public class BookingDetailsActivity extends AppCompatActivity {
 
         pickup_date_container.setOnClickListener(v-> showDatePicker(pickupDate));
         pickup_time_container.setOnClickListener(v-> showTimePicker(pickupTime));
+        dropoff_date_container.setOnClickListener(v-> showDatePicker(dropoffDate));
+        dropoff_time_container.setOnClickListener(v-> showTimePicker(dropoffTime));
     }
 
     private void fetchVehicleById(int vehicleId) {
