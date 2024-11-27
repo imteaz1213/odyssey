@@ -1,205 +1,81 @@
 package com.example.odyssey;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Calendar;
+import com.bumptech.glide.Glide;
+import com.example.odyssey.api.ApiService;
+import com.example.odyssey.api.RetrofitClient;
+import com.example.odyssey.models.VehicleResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookingDetailsActivity extends AppCompatActivity {
 
-
-
-    private static final String TAG = "BookingDetailsActivity";
-    private ImageView carImage;
-    private CalendarView pickupDatePicker;
-    private TextView carDetails;
-    private TextView carRating;
-    private TextView  additionalInfo;
-    private ImageView ownerImage, renterImage;
-    private TextView ownerName, ownerEmail, renterName, renterEmail,pickupDate,pickupTime, returnDate, returnTime;
-
-    private Button advancePaymentButton, cancelButton;
-    private DatePickerDialog.OnDateSetListener dateSet;
-
+    private ImageView car_image;
+    private TextView car_name;
+    private TextView car_rating;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_details);
 
-        // Initialize views
-        carImage = findViewById(R.id.car_image);
-        carDetails = findViewById(R.id.car_name);
-        carRating = findViewById(R.id.car_rating);
-        pickupDate = findViewById(R.id.pickup_date_picker_hint);
-        pickupTime = findViewById(R.id.Pickup_date_timePicker_hint);
-        returnDate = findViewById(R.id.return_date_picker_hint);
-        returnTime = findViewById(R.id.return_date_time_hint);
-        additionalInfo = findViewById(R.id.additional_info);
-        ownerImage = findViewById(R.id.owner_image);
-        renterImage = findViewById(R.id.renter_image);
-        ownerName = findViewById(R.id.owner_name);
-        ownerEmail = findViewById(R.id.owner_email);
-        renterName = findViewById(R.id.renter_name);
-        renterEmail = findViewById(R.id.renter_email);
-        advancePaymentButton = findViewById(R.id.advance_payment_button);
-        cancelButton = findViewById(R.id.cancel_button);
+        car_image = findViewById(R.id.car_image);
+        car_name = findViewById(R.id.car_name);
+        car_rating = findViewById(R.id.car_rating);
 
-        advancePaymentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BookingDetailsActivity.this, PaymentDetailsActivity.class);
-                startActivity(intent);
+        String carId = getIntent().getStringExtra("CAR_ID");
+        if (carId != null) {
+            try {
+                int vehicleId = Integer.parseInt(carId);
+                fetchVehicleById(vehicleId);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid vehicle ID", Toast.LENGTH_SHORT).show();
             }
-        });
+        } else {
+            Toast.makeText(this, "Car ID not provided!", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
 
-        cancelButton.setOnClickListener(view -> {
-        });
-        pickupDate.setOnClickListener(new View.OnClickListener() {
+    private void fetchVehicleById(int vehicleId) {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<VehicleResponse> call = apiService.getVehicleById(vehicleId);
+        call.enqueue(new Callback<VehicleResponse>() {
             @Override
-            public void onClick(View v) {
-                showDatePicker(pickupDate);
-            }
-        });
+            public void onResponse(Call<VehicleResponse> call, Response<VehicleResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    VehicleResponse vehicleResponse = response.body();
 
-        pickupTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePicker(pickupTime);
-            }
-        });
-        returnDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePicker(returnDate);
-            }
-        });
-        returnTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePicker(returnTime);
-            }
-        });
-        // You can set other necessary data to views here
-        setCarImage(R.drawable.car_pic);
-        setRenterImage(R.drawable.car_image);
-        setOwnerImage(R.drawable.car_image);
-        setText(carDetails,"Toyota Axios");
-        setText(ownerName,"MD NAZIRUL ISLAM ");
-        setText(renterName,"MD TAIJUL ISLAM");
-        setText( ownerEmail,"bijoykk1512@gmail.com");
-        setText( renterEmail,"joykk1512@gmail.com");
-        updateRating(carRating,4f);
-        additionalInfo.setOnClickListener(v -> showAcOptionsDialog(additionalInfo));
-    }
-    private void showAcOptionsDialog(TextView field) {
-        final String[] acOptions = {"On", "Off"};
+                    if ("true".equals(vehicleResponse.getStatus())) {
+                        Glide.with(BookingDetailsActivity.this)
+                                .load(vehicleResponse.getData().getMain_image())
+                                .placeholder(R.drawable.car1)
+                                .error(R.drawable.car1)
+                                .into(car_image);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select A/C Status")
-                .setItems(acOptions, (dialog, which) -> {
-                    String selectedOption = acOptions[which];
-                    field.setText(selectedOption);
-                });
-        builder.create().show();
-    }
-    private void updateRating(TextView field,float rating) {
+                        car_name.setText(vehicleResponse.getData().getModel());
 
-        field.setText(String.format("%.1f", rating));
-    }
-    private void setText(TextView field,String str){
-        field.setText(str);
-    }
-
-    private void showDatePicker(TextView field) {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog dialog = new DatePickerDialog(
-                BookingDetailsActivity.this,
-                android.R.style.Theme_Holo_Dialog_MinWidth,
-                getDateSetListener(field),
-                year, month, day);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-    }
-    private DatePickerDialog.OnDateSetListener getDateSetListener(TextView field) {
-        return new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Log.d(TAG, "onDateSet: date: " + day + "/" + (month + 1) + "/" + year);
-                String selectedDate = day + "/" + (month + 1) + "/" + year;
-                field.setText(selectedDate);
-                field.setTextColor(Color.BLACK);
-            }
-        };
-    }
-    private void showTimePicker(TextView field) {
-        Calendar cal = Calendar.getInstance();
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
-
-
-        TimePickerDialog dialog = new TimePickerDialog(
-                BookingDetailsActivity.this,
-                android.R.style.Theme_Holo_Dialog_MinWidth,
-                getTimeSetListener(field),
-                hour, minute, true);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-    }
-    private TimePickerDialog.OnTimeSetListener getTimeSetListener(TextView field) {
-        return new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                String am;
-                if(hour>12) {
-                    am ="PM";
-                    hour-=12;
-                    if(hour==0){
-                        am="AM";
-                        hour=12;
+                    } else {
+                        Toast.makeText(BookingDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(BookingDetailsActivity.this, "Failed to fetch details: Invalid response", Toast.LENGTH_SHORT).show();
                 }
-                else if(hour==12){
-                    am="PM";
-                }
-                else if(hour==0) {
-                    am="AM";
-                    hour=12;
-                } else am = "AM";
-                Log.d(TAG, "onTimeSet: time: " + hour + ":" + String.format("%02d", minute));
-                String selectedTime = hour + ":" + String.format("%02d", minute)+" "+am;
-                field.setText(selectedTime);
-                field.setTextColor(Color.BLACK);
             }
-        };
-    }
-    private void setCarImage(int drawableResId) {carImage.setImageResource(drawableResId);}
-    private void setRenterImage(int drawableResId) {
-        renterImage.setImageResource(drawableResId);
-    }
-    private void setOwnerImage(int drawableResId) {
-        ownerImage.setImageResource(drawableResId);
-    }
 
+            @Override
+            public void onFailure(Call<VehicleResponse> call, Throwable t) {
+                Toast.makeText(BookingDetailsActivity.this, "Failed to fetch vehicle details", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
 
