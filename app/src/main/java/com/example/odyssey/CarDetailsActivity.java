@@ -49,7 +49,9 @@ public class CarDetailsActivity extends AppCompatActivity {
         }
 
         bookNowButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, BookingDetailsActivity.class));
+            Intent intent = new Intent(v.getContext(), BookingDetailsActivity.class);
+            intent.putExtra("CAR_ID", carId);
+            v.getContext().startActivity(intent);
         });
     }
 

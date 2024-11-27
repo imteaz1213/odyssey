@@ -19,7 +19,7 @@
             android:layout_height="200dp"
             android:contentDescription="Car Image"
             android:scaleType="centerCrop"
-            android:src="@drawable/car_pic" />
+            android:src="@drawable/car1" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Toyota Axios"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.9"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
