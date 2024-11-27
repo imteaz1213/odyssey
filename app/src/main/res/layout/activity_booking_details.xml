@@ -253,7 +253,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/car_pic" />
+                    android:src="@drawable/avatar" />
 
                 <TextView
                     android:id="@+id/owner_name"
@@ -296,7 +296,7 @@
                     android:layout_width="50dp"
                     android:layout_height="52dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/car_pic" />
+                    android:src="@drawable/avatar" />
 
                 <TextView
                     android:id="@+id/renter_name"
