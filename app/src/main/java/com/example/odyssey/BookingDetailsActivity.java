@@ -2,15 +2,13 @@ package com.example.odyssey;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +16,12 @@ import com.bumptech.glide.Glide;
 import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
 import com.example.odyssey.models.VehicleResponse;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -26,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BookingDetailsActivity extends AppCompatActivity {
+public class BookingDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ImageView car_image;
     private TextView car_name;
@@ -39,6 +43,8 @@ public class BookingDetailsActivity extends AppCompatActivity {
     private TextView pickupTime;
     private TextView dropoffDate;
     private TextView dropoffTime;
+    private GoogleMap pickupMap;
+    private GoogleMap dropoffMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,11 +78,40 @@ public class BookingDetailsActivity extends AppCompatActivity {
             finish();
         }
 
+        pickup_date_container.setOnClickListener(v -> showDatePicker(pickupDate));
+        pickup_time_container.setOnClickListener(v -> showTimePicker(pickupTime));
+        dropoff_date_container.setOnClickListener(v -> showDatePicker(dropoffDate));
+        dropoff_time_container.setOnClickListener(v -> showTimePicker(dropoffTime));
 
-        pickup_date_container.setOnClickListener(v-> showDatePicker(pickupDate));
-        pickup_time_container.setOnClickListener(v-> showTimePicker(pickupTime));
-        dropoff_date_container.setOnClickListener(v-> showDatePicker(dropoffDate));
-        dropoff_time_container.setOnClickListener(v-> showTimePicker(dropoffTime));
+        SupportMapFragment pickupMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.pickup_map);
+
+        SupportMapFragment dropoffMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.dropoff_map);
+
+        if (pickupMapFragment != null) {
+            pickupMapFragment.getMapAsync(googleMap -> {
+                pickupMap = googleMap;
+                setupMapClickListener(pickupMap, "Pickup");
+            });
+        }
+
+        if (dropoffMapFragment != null) {
+            dropoffMapFragment.getMapAsync(googleMap -> {
+                dropoffMap = googleMap;
+                setupMapClickListener(dropoffMap, "Dropoff");
+            });
+        }
+    }
+
+    private void setupMapClickListener(GoogleMap map, String mapType) {
+        map.setOnMapClickListener(latLng -> {
+            map.clear();
+            String message = String.format(Locale.getDefault(), "%s Map Clicked: %.4f, %.4f", mapType, latLng.latitude, latLng.longitude);
+            Toast.makeText(BookingDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+            map.addMarker(new MarkerOptions().position(latLng).title(mapType + " Default Location"));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng , 10));
+        });
     }
 
     private void fetchVehicleById(int vehicleId) {
@@ -96,7 +131,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
                                 .into(car_image);
 
                         car_name.setText(vehicleResponse.getData().getModel());
-
+//                        car_rating.setText(String.format(Locale.getDefault(), "%.1f", vehicleResponse.getData().getRating()));
                     } else {
                         Toast.makeText(BookingDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -115,7 +150,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
     private void showDatePicker(TextView field) {
         Calendar cal = Calendar.getInstance();
         new DatePickerDialog(
-                BookingDetailsActivity.this,
+                this,
                 (view, year, month, dayOfMonth) ->
                         field.setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", dayOfMonth, month + 1, year)),
                 cal.get(Calendar.YEAR),
@@ -128,13 +163,16 @@ public class BookingDetailsActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         new TimePickerDialog(
                 this,
-                android.R.style.Theme_Holo_Dialog_MinWidth,
-                (view, hourOfDay, minute) -> field.setText(String.format("%02d:%02d", hourOfDay, minute)),
+                (view, hourOfDay, minute) ->
+                        field.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)),
                 cal.get(Calendar.HOUR_OF_DAY),
                 cal.get(Calendar.MINUTE),
                 true
         ).show();
     }
 
-}
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
 
+    }
+}
