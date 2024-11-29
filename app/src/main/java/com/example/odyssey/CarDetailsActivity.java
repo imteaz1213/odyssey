@@ -33,7 +33,7 @@ public class CarDetailsActivity extends AppCompatActivity {
         main_car_image = findViewById(R.id.main_car_image);
         car_title = findViewById(R.id.car_title);
         imageContainer = findViewById(R.id.horizontal_images_container);
-        bookNowButton = findViewById(R.id.bottomBtn);
+        bookNowButton = findViewById(R.id.bottom_btn);
 
         String carId = getIntent().getStringExtra("CAR_ID");
         if (carId != null) {

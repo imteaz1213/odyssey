@@ -62,16 +62,16 @@ public class HomeFragment extends Fragment {
                         itemList.addAll(vehicleListResponse.getData());
                         carItemAdapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(getContext(), vehicleListResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), vehicleListResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Failed to fetch vehicles.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Failed to fetch vehicles.", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<VehicleListResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
