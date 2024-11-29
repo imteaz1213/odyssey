@@ -25,6 +25,8 @@ public class CarDetailsActivity extends AppCompatActivity {
     private LinearLayout imageContainer;
     private TextView car_title;
     private Button bookNowButton;
+    private TextView driverName;
+    private TextView dirverMobile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,8 @@ public class CarDetailsActivity extends AppCompatActivity {
 
         main_car_image = findViewById(R.id.main_car_image);
         car_title = findViewById(R.id.car_title);
+        driverName = findViewById(R.id.driver_name);
+        dirverMobile = findViewById(R.id.driver_mobile);
         imageContainer = findViewById(R.id.horizontal_images_container);
         bookNowButton = findViewById(R.id.bottom_btn);
 
@@ -97,6 +101,8 @@ public class CarDetailsActivity extends AppCompatActivity {
                                 .into(main_car_image);
 
                         car_title.setText(vehicleResponse.getData().getModel());
+                        driverName.setText(vehicleResponse.getData().getName());
+                        dirverMobile.setText(vehicleResponse.getData().getMobile_number());
                         setupImageSlider(
                                 vehicleResponse.getData().getMain_image(),
                                 vehicleResponse.getData().getFront_image(),

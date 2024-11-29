@@ -19,8 +19,11 @@ public class VehicleModel {
     private String left_image;
     private String interior_image;
     private String right_image;
+    private String name;
+    private String mobile_number;
+    private String email;
 
-    public VehicleModel(int vehicle_id, int driver_id, String type, String license_plate_number, double mileage, int number_of_seats, String chasis_number, String model, int year, String color, String owner_mobile_number, String owner_image, String main_image, String front_image, String back_image, String left_image, String interior_image, String right_image) {
+    public VehicleModel(int vehicle_id, int driver_id, String type, String license_plate_number, double mileage, int number_of_seats, String chasis_number, String model, int year, String color, String owner_mobile_number, String owner_image, String main_image, String front_image, String back_image, String left_image, String interior_image, String right_image, String name, String mobile_number, String email) {
         this.vehicle_id = vehicle_id;
         this.driver_id = driver_id;
         this.type = type;
@@ -39,8 +42,22 @@ public class VehicleModel {
         this.left_image = left_image;
         this.interior_image = interior_image;
         this.right_image = right_image;
+        this.name = name;
+        this.mobile_number = mobile_number;
+        this.email = email;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getMobile_number() {
+        return mobile_number;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     public int getVehicle_id() {
         return vehicle_id;

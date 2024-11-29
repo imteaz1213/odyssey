@@ -22,6 +22,7 @@ import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
 import com.example.odyssey.models.BookingRequest;
 import com.example.odyssey.models.BookingResponse;
+import com.example.odyssey.models.ProfileResponse;
 import com.example.odyssey.models.VehicleResponse;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,9 +40,9 @@ import retrofit2.Response;
 
 public class BookingDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private ImageView car_image;
-    private TextView car_name;
-    private TextView car_rating;
+    private ImageView carImage;
+    private TextView carModel;
+    private TextView carRating;
     private LinearLayout pickup_date_container;
     private LinearLayout pickup_time_container;
     private LinearLayout dropoff_date_container;
@@ -55,15 +56,20 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     private String bearerToken;
     private SharedPreferences sharedPreferences;
     private Button bookingReqstBtn;
+    private TextView driverName;
+    private TextView driverMobile;
     private int driverId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_details);
 
-        car_image = findViewById(R.id.car_image);
-        car_name = findViewById(R.id.car_name);
-        car_rating = findViewById(R.id.car_rating);
+        carImage = findViewById(R.id.car_image);
+        carModel = findViewById(R.id.car_model);
+        carRating = findViewById(R.id.car_rating);
+        driverName = findViewById(R.id.driver_name);
+        driverMobile = findViewById(R.id.driver_mobile);
 
         pickup_date_container = findViewById(R.id.pickup_date_container);
         pickup_time_container = findViewById(R.id.pickup_time_container);
@@ -82,6 +88,8 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         if (bearerToken == null) {
             Toast.makeText(this, "Unauthorized User", Toast.LENGTH_LONG).show();
             logout();
+        } else {
+            fetchUserProfile();
         }
 
         String carId = getIntent().getStringExtra("CAR_ID");
@@ -102,11 +110,8 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         dropoff_date_container.setOnClickListener(v -> showDatePicker(dropoffDate));
         dropoff_time_container.setOnClickListener(v -> showTimePicker(dropoffTime));
 
-        SupportMapFragment pickupMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.pickup_map);
-
-        SupportMapFragment dropoffMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.dropoff_map);
+        SupportMapFragment pickupMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.pickup_map);
+        SupportMapFragment dropoffMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.dropoff_map);
 
         if (pickupMapFragment != null) {
             pickupMapFragment.getMapAsync(googleMap -> {
@@ -124,12 +129,22 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
 
         int numOfPassenger = 5;
         int numOfStoppage = 10;
+
         bookingReqstBtn.setOnClickListener(v -> {
             String pickupDatetime = pickupDate.getText().toString() + " " + pickupTime.getText().toString();
             String dropoffDatetime = dropoffDate.getText().toString() + " " + dropoffTime.getText().toString();
             String pickupLocation = pickupMap != null ? pickupMap.getCameraPosition().target.toString() : "0.0,0.0";
             String dropoffLocation = dropoffMap != null ? dropoffMap.getCameraPosition().target.toString() : "Not Selected";
 
+//            System.out.println(
+//                    "Driver Id -> "+driverId+
+//                    "\nPickupdatetime -> " + pickupDatetime+
+//                    "\ndropoffdatetime -> "+dropoffDatetime+
+//                    "\npickuplocation -> "+pickupLocation+
+//                    "\ndropofflocation -> "+dropoffLocation+
+//                    "\nnumof passenger -> "+numOfPassenger+
+//                    "\nnumof stoppage -> "+numOfStoppage
+//            );
             BookingRequest bookingRequest = new BookingRequest(
                     driverId,
                     pickupDatetime,
@@ -146,15 +161,79 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         });
 
     }
-    private void sendBookingRequest(BookingRequest bookingRequest){
+
+    private void fetchUserProfile() {
         ApiService apiService = RetrofitClient.getApiService();
-        Call<BookingResponse> call = apiService.createBooking("Bearer "+bearerToken,bookingRequest);
+        Call<ProfileResponse> call = apiService.getUserProfile("Bearer " + bearerToken);
+
+        call.enqueue(new Callback<ProfileResponse>() {
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ProfileResponse profileResponse = response.body();
+                    if ("true".equals(profileResponse.getStatus()) && profileResponse.getData() != null) {
+//                        profileName.setText(profileResponse.getData().getName());
+//                        mobileNumber.setText(profileResponse.getData().getMobileNumber());
+                    } else {
+                        Toast.makeText(BookingDetailsActivity.this, profileResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(BookingDetailsActivity.this, "Failed to fetch profile", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                Toast.makeText(BookingDetailsActivity.this, "Network error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void fetchVehicleById(int vehicleId) {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<VehicleResponse> call = apiService.getVehicleById(vehicleId);
+        call.enqueue(new Callback<VehicleResponse>() {
+            @Override
+            public void onResponse(Call<VehicleResponse> call, Response<VehicleResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    VehicleResponse vehicleResponse = response.body();
+
+                    if ("true".equals(vehicleResponse.getStatus())) {
+                        Glide.with(BookingDetailsActivity.this)
+                                .load(vehicleResponse.getData().getMain_image())
+                                .placeholder(R.drawable.car1)
+                                .error(R.drawable.car1)
+                                .into(carImage);
+
+                        carModel.setText(vehicleResponse.getData().getModel());
+                        driverId = vehicleResponse.getData().getDriver_id();
+                        driverName.setText(vehicleResponse.getData().getName());
+                        driverMobile.setText(vehicleResponse.getData().getMobile_number());
+
+                    } else {
+                        Toast.makeText(BookingDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(BookingDetailsActivity.this, "Failed to fetch details: Invalid response", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VehicleResponse> call, Throwable t) {
+                Toast.makeText(BookingDetailsActivity.this, "Failed to fetch vehicle details", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void sendBookingRequest(BookingRequest bookingRequest) {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<BookingResponse> call = apiService.createBooking("Bearer " + bearerToken, bookingRequest);
 
         call.enqueue(new Callback<BookingResponse>() {
             @Override
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                 System.out.println(response.isSuccessful());
-                Log.d("Details",String.valueOf(response.body()));
+                Log.d("Details", String.valueOf(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
                     BookingResponse bookingResponse = response.body();
                     Toast.makeText(BookingDetailsActivity.this, bookingResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -183,41 +262,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
             String message = String.format(Locale.getDefault(), "%s Map Clicked: %.4f, %.4f", mapType, latLng.latitude, latLng.longitude);
             Toast.makeText(BookingDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
             map.addMarker(new MarkerOptions().position(latLng).title(mapType + " Default Location"));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng , 10));
-        });
-    }
-
-    private void fetchVehicleById(int vehicleId) {
-        ApiService apiService = RetrofitClient.getApiService();
-        Call<VehicleResponse> call = apiService.getVehicleById(vehicleId);
-        call.enqueue(new Callback<VehicleResponse>() {
-            @Override
-            public void onResponse(Call<VehicleResponse> call, Response<VehicleResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    VehicleResponse vehicleResponse = response.body();
-
-                    if ("true".equals(vehicleResponse.getStatus())) {
-                        Glide.with(BookingDetailsActivity.this)
-                                .load(vehicleResponse.getData().getMain_image())
-                                .placeholder(R.drawable.car1)
-                                .error(R.drawable.car1)
-                                .into(car_image);
-
-                        car_name.setText(vehicleResponse.getData().getModel());
-                        driverId = vehicleResponse.getData().getDriver_id();
-//                        car_rating.setText(String.format(Locale.getDefault(), "%.1f", vehicleResponse.getData().getRating()));
-                    } else {
-                        Toast.makeText(BookingDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(BookingDetailsActivity.this, "Failed to fetch details: Invalid response", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<VehicleResponse> call, Throwable t) {
-                Toast.makeText(BookingDetailsActivity.this, "Failed to fetch vehicle details", Toast.LENGTH_SHORT).show();
-            }
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
         });
     }
 
@@ -249,6 +294,4 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
     }
-
-
 }
