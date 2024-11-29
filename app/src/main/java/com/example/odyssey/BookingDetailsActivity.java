@@ -2,7 +2,12 @@ package com.example.odyssey;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
+import com.example.odyssey.models.BookingRequest;
+import com.example.odyssey.models.BookingResponse;
 import com.example.odyssey.models.VehicleResponse;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,7 +52,10 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     private TextView dropoffTime;
     private GoogleMap pickupMap;
     private GoogleMap dropoffMap;
-
+    private String bearerToken;
+    private SharedPreferences sharedPreferences;
+    private Button bookingReqstBtn;
+    private int driverId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +74,15 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         pickupTime = findViewById(R.id.pickup_timepicker_hint);
         dropoffDate = findViewById(R.id.dropoff_datepicker_hint);
         dropoffTime = findViewById(R.id.dropoff_timepicker_hint);
+
+        bookingReqstBtn = findViewById(R.id.advance_payment_button);
+
+        sharedPreferences = getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE);
+        bearerToken = sharedPreferences.getString("authToken", null);
+        if (bearerToken == null) {
+            Toast.makeText(this, "Unauthorized User", Toast.LENGTH_LONG).show();
+            logout();
+        }
 
         String carId = getIntent().getStringExtra("CAR_ID");
         if (carId != null) {
@@ -102,6 +121,60 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                 setupMapClickListener(dropoffMap, "Dropoff");
             });
         }
+
+        int numOfPassenger = 5;
+        int numOfStoppage = 10;
+        bookingReqstBtn.setOnClickListener(v -> {
+            String pickupDatetime = pickupDate.getText().toString() + " " + pickupTime.getText().toString();
+            String dropoffDatetime = dropoffDate.getText().toString() + " " + dropoffTime.getText().toString();
+            String pickupLocation = pickupMap != null ? pickupMap.getCameraPosition().target.toString() : "0.0,0.0";
+            String dropoffLocation = dropoffMap != null ? dropoffMap.getCameraPosition().target.toString() : "Not Selected";
+
+            BookingRequest bookingRequest = new BookingRequest(
+                    driverId,
+                    pickupDatetime,
+                    dropoffDatetime,
+                    pickupLocation,
+                    dropoffLocation,
+                    numOfPassenger,
+                    numOfStoppage
+            );
+
+            sendBookingRequest(bookingRequest);
+
+            Toast.makeText(this, "Booking Req Button Clicked", Toast.LENGTH_SHORT).show();
+        });
+
+    }
+    private void sendBookingRequest(BookingRequest bookingRequest){
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<BookingResponse> call = apiService.createBooking("Bearer "+bearerToken,bookingRequest);
+
+        call.enqueue(new Callback<BookingResponse>() {
+            @Override
+            public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
+                System.out.println(response.isSuccessful());
+                Log.d("Details",String.valueOf(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    BookingResponse bookingResponse = response.body();
+                    Toast.makeText(BookingDetailsActivity.this, bookingResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(BookingDetailsActivity.this, "Failed to create booking", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookingResponse> call, Throwable t) {
+                Toast.makeText(BookingDetailsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void logout() {
+        sharedPreferences.edit().remove("authToken").apply();
+        Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(this, SigninActivity.class));
+        finish();
     }
 
     private void setupMapClickListener(GoogleMap map, String mapType) {
@@ -131,6 +204,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                                 .into(car_image);
 
                         car_name.setText(vehicleResponse.getData().getModel());
+                        driverId = vehicleResponse.getData().getDriver_id();
 //                        car_rating.setText(String.format(Locale.getDefault(), "%.1f", vehicleResponse.getData().getRating()));
                     } else {
                         Toast.makeText(BookingDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -175,4 +249,6 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
     }
+
+
 }

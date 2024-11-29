@@ -1,5 +1,7 @@
 package com.example.odyssey.api;
 
+import com.example.odyssey.models.BookingRequest;
+import com.example.odyssey.models.BookingResponse;
 import com.example.odyssey.models.LoginRequest;
 import com.example.odyssey.models.LoginResponse;
 import com.example.odyssey.models.ProfileResponse;
@@ -30,5 +32,8 @@ public interface ApiService {
 
     @GET("vehicle/vehicle-list.php")
     Call<VehicleResponse> getVehicleById(@Query("vehicleId") int vehicleId);
+
+    @POST("bookings/bookings-request.php")
+    Call<BookingResponse> createBooking(@Header("Authorization") String authToken, @Body BookingRequest bookingRequest);
 }
 
