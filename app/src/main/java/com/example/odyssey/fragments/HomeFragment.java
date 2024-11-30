@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
+
     private RecyclerView homeCarItemContainer;
     private HomeCarItemAdaptar carItemAdapter;
     private List<VehicleModel> itemList = new ArrayList<>();
@@ -38,7 +39,6 @@ public class HomeFragment extends Fragment {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         homeCarItemContainer.setLayoutManager(layoutManager);
-
         carItemAdapter = new HomeCarItemAdaptar(itemList);
         homeCarItemContainer.setAdapter(carItemAdapter);
 

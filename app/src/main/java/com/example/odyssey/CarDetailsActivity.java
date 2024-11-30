@@ -20,26 +20,34 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CarDetailsActivity extends AppCompatActivity {
+
     private ImageView horizontalImage;
-    private ImageView main_car_image;
+    private ImageView mainCarImage;
     private LinearLayout imageContainer;
-    private TextView car_title;
+    private TextView carTitle;
     private Button bookNowButton;
     private TextView driverName;
     private TextView dirverMobile;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
 
-        main_car_image = findViewById(R.id.main_car_image);
-        car_title = findViewById(R.id.car_title);
+        mainCarImage = findViewById(R.id.main_car_image);
+        carTitle = findViewById(R.id.car_title);
         driverName = findViewById(R.id.driver_name);
         dirverMobile = findViewById(R.id.driver_mobile);
         imageContainer = findViewById(R.id.horizontal_images_container);
         bookNowButton = findViewById(R.id.bottom_btn);
 
         String carId = getIntent().getStringExtra("CAR_ID");
+        bookNowButton.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), BookingDetailsActivity.class);
+            intent.putExtra("CAR_ID", carId);
+            v.getContext().startActivity(intent);
+        });
+
         if (carId != null) {
             try {
                 int vehicleId = Integer.parseInt(carId);
@@ -49,39 +57,9 @@ public class CarDetailsActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(this, "Car ID not provided!", Toast.LENGTH_SHORT).show();
-            finish();
+            // finish();
         }
 
-        bookNowButton.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), BookingDetailsActivity.class);
-            intent.putExtra("CAR_ID", carId);
-            v.getContext().startActivity(intent);
-        });
-    }
-
-
-    private void setupImageSlider(String mainImage, String frontImage, String backImage, String leftImage, String rightImage, String interiorImage) {
-        String[] imageIds = { mainImage, frontImage, backImage, leftImage, rightImage, interiorImage};
-
-        for (String imageId : imageIds) {
-            horizontalImage = new ImageView(this);
-            horizontalImage.setLayoutParams(new LinearLayout.LayoutParams(300, 150));
-            horizontalImage.setPadding(10, 0, 10, 0);
-
-            Glide.with(this)
-                    .load(imageId)
-                    .error(R.drawable.car1)
-                    .into(horizontalImage);
-
-            horizontalImage.setOnClickListener(v ->
-                    Glide.with(this)
-                            .load(imageId)
-                            .error(R.drawable.car1)
-                            .into(main_car_image)
-            );
-
-            imageContainer.addView(horizontalImage);
-        }
     }
 
     private void fetchVehicleById(int vehicleId) {
@@ -95,22 +73,23 @@ public class CarDetailsActivity extends AppCompatActivity {
 
                     if ("true".equals(vehicleResponse.getStatus())) {
                          Glide.with(CarDetailsActivity.this)
-                                .load(vehicleResponse.getData().getMain_image())
+                                .load(vehicleResponse.getData().getMainImage())
                                 .placeholder(R.drawable.car1)
                                 .error(R.drawable.car1)
-                                .into(main_car_image);
+                                .into(mainCarImage);
 
-                        car_title.setText(vehicleResponse.getData().getModel());
-                        driverName.setText(vehicleResponse.getData().getName());
-                        dirverMobile.setText(vehicleResponse.getData().getMobile_number());
                         setupImageSlider(
-                                vehicleResponse.getData().getMain_image(),
-                                vehicleResponse.getData().getFront_image(),
-                                vehicleResponse.getData().getBack_image(),
-                                vehicleResponse.getData().getLeft_image(),
-                                vehicleResponse.getData().getRight_image(),
-                                vehicleResponse.getData().getInterior_image()
+                                vehicleResponse.getData().getMainImage(),
+                                vehicleResponse.getData().getFrontImage(),
+                                vehicleResponse.getData().getBackImage(),
+                                vehicleResponse.getData().getLeftImage(),
+                                vehicleResponse.getData().getRightImage(),
+                                vehicleResponse.getData().getInteriorImage()
                                 );
+                        
+                        carTitle.setText(vehicleResponse.getData().getModel());
+                        driverName.setText(vehicleResponse.getData().getName());
+                        dirverMobile.setText(vehicleResponse.getData().getMobileNumber());
 
                     } else {
                         Toast.makeText(CarDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -126,4 +105,29 @@ public class CarDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setupImageSlider(String mainImage, String frontImage, String backImage, String leftImage, String rightImage, String interiorImage) {
+        String[] imageIds = { mainImage, frontImage, backImage, leftImage, rightImage, interiorImage};
+
+        for (String imageId : imageIds) {
+            horizontalImage = new ImageView(this);
+            horizontalImage.setLayoutParams(new LinearLayout.LayoutParams(300, 150));
+            // horizontalImage.setPadding(10, 0, 10, 0);
+
+            Glide.with(this)
+                    .load(imageId)
+                    .error(R.drawable.car1)
+                    .into(horizontalImage);
+
+            horizontalImage.setOnClickListener(v ->
+                    Glide.with(this)
+                            .load(imageId)
+                            .error(R.drawable.car1)
+                            .into(mainCarImage)
+            );
+
+            imageContainer.addView(horizontalImage);
+        }
+    }
+
 }

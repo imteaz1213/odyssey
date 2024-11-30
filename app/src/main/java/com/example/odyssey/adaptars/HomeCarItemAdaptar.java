@@ -51,17 +51,17 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
         VehicleModel vehicle = vehicleList.get(position);
 
         holder.homeCarItemTitle.setText(vehicle.getModel());
-        holder.carRating.setText(String.valueOf(vehicle.getDriver_id()));
+        holder.carRating.setText(String.valueOf(vehicle.getDriverId()));
 
         Glide.with(holder.home_car_item_image.getContext())
-                .load(vehicle.getMain_image()) 
+                .load(vehicle.getMainImage()) 
                 .error(R.drawable.car1)
                 .into(holder.home_car_item_image);
 
         holder.itemView.setOnClickListener(v -> {
-            if (String.valueOf(vehicle.getVehicle_id()) != null) {
+            if (String.valueOf(vehicle.getVehicleId()) != null) {
                 Intent intent = new Intent(v.getContext(), CarDetailsActivity.class);
-                intent.putExtra("CAR_ID", String.valueOf(vehicle.getVehicle_id()));
+                intent.putExtra("CAR_ID", String.valueOf(vehicle.getVehicleId()));
                 v.getContext().startActivity(intent);
             } else {
                 Toast.makeText(holder.itemView.getContext(), "Vehicle ID is invalid!", Toast.LENGTH_SHORT).show();

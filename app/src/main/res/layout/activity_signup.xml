@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/getFullName"
+        android:id="@+id/get_full_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -58,11 +58,11 @@
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getFullName" />
+        app:layout_constraintTop_toBottomOf="@+id/get_full_name" />
 
     <com.google.android.material.textfield.TextInputLayout
 
-        android:id="@+id/getEmail"
+        android:id="@+id/get_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -88,10 +88,10 @@
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/get_email" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/getMobileNumber"
+        android:id="@+id/get_mobile_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -117,10 +117,10 @@
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getMobileNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/get_mobile_number" />
 
     <Spinner
-        android:id="@+id/roleSpinner"
+        android:id="@+id/role_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -140,10 +140,10 @@
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roleSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/role_spinner" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/getPassword"
+        android:id="@+id/get_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -159,7 +159,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/signupBtn"
+        android:id="@+id/signup_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green"
@@ -172,7 +172,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/get_password" />
 
 
     <TextView
@@ -184,14 +184,14 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toStartOf="@+id/signinLink"
+        app:layout_constraintEnd_toStartOf="@+id/signin_link"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signupBtn" />
 
     <TextView
-        android:id="@+id/signinLink"
+        android:id="@+id/signin_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

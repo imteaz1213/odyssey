@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignupActivity extends AppCompatActivity {
+
     private TextView signinLink;
     private Button signupBtn;
     private SharedPreferences sharedPreferences;
@@ -33,6 +34,7 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputLayout getFullName, getEmail,getMobileNumber, getPassword;
     private TextInputEditText fullNameEditText,emailEditText,mobileNumberEditText, passwordEditText;
     private String selectedRole;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +48,13 @@ public class SignupActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_signup);
 
-
-        roleSpinner = findViewById(R.id.roleSpinner);
-        signupBtn = findViewById(R.id.signupBtn);
-        signinLink = findViewById(R.id.signinLink);
-        getFullName = findViewById(R.id.getFullName);
-        getEmail = findViewById(R.id.getEmail);
-        getMobileNumber = findViewById(R.id.getMobileNumber);
-        getPassword = findViewById(R.id.getPassword);
+        getFullName = findViewById(R.id.get_full_name);
+        getEmail = findViewById(R.id.get_email);
+        getMobileNumber = findViewById(R.id.get_mobile_number);
+        getPassword = findViewById(R.id.get_password);
+        roleSpinner = findViewById(R.id.role_spinner);
+        signupBtn = findViewById(R.id.signup_btn);
+        signinLink = findViewById(R.id.signin_link);
 
         fullNameEditText = (TextInputEditText) getFullName.getEditText();
         emailEditText = (TextInputEditText) getEmail.getEditText();
@@ -76,6 +77,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         signinLink.setOnClickListener(v -> startActivity(new Intent(SignupActivity.this, SigninActivity.class)));
+        
         signupBtn.setOnClickListener(view -> {
             String fullName = fullNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
@@ -87,7 +89,7 @@ public class SignupActivity extends AppCompatActivity {
             getMobileNumber.setError(email.isEmpty() ? "Mobile Number is required" : null);
             getPassword.setError(password.isEmpty() ? "Password is required" : null);
 
-            if (!email.isEmpty() && !password.isEmpty()) registerUser(fullName, email, mobileNumber, selectedRole, password);
+            if (!fullName.isEmpty() && !email.isEmpty() && !mobileNumber.isEmpty() && !password.isEmpty() && !selectedRole.isEmpty()) registerUser(fullName, email, mobileNumber, selectedRole, password);
         });
 
     }

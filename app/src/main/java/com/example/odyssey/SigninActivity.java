@@ -42,18 +42,16 @@ public class SigninActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_signin);
 
-        loginButton=findViewById(R.id.loginButton);
-        signupLink=findViewById(R.id.signupLink);
-        getEmail = findViewById(R.id.getEmail);
-        getPassword = findViewById(R.id.getPassword);
+        loginButton=findViewById(R.id.login_button);
+        signupLink=findViewById(R.id.signup_link);
+        getEmail = findViewById(R.id.get_email);
+        getPassword = findViewById(R.id.get_password);
 
         emailEditText = (TextInputEditText) getEmail.getEditText();
         passwordEditText = (TextInputEditText) getPassword.getEditText();
 
-        // HANDLING SIGNUP BUTTON
         signupLink.setOnClickListener(view -> startActivity(new Intent(this, SignupActivity.class)));
 
-        // HANDLING SUBMIT BUTTON
         loginButton.setOnClickListener(view -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -65,6 +63,7 @@ public class SigninActivity extends AppCompatActivity {
         });
 
     }
+
     private void loginUser(String email, String password) {
         ApiService apiService = RetrofitClient.getApiService();
         Call<LoginResponse> call = apiService.loginUser(new LoginRequest(email, password));

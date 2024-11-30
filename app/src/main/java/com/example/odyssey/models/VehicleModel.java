@@ -51,7 +51,7 @@ public class VehicleModel {
         return name;
     }
 
-    public String getMobile_number() {
+    public String getMobileNumber() {
         return mobile_number;
     }
 
@@ -59,11 +59,11 @@ public class VehicleModel {
         return email;
     }
 
-    public int getVehicle_id() {
+    public int getVehicleId() {
         return vehicle_id;
     }
 
-    public int getDriver_id() {
+    public int getDriverId() {
         return driver_id;
     }
 
@@ -71,7 +71,7 @@ public class VehicleModel {
         return type;
     }
 
-    public String getLicense_plate_number() {
+    public String getLicensePlateNumber() {
         return license_plate_number;
     }
 
@@ -79,11 +79,11 @@ public class VehicleModel {
         return mileage;
     }
 
-    public int getNumber_of_seats() {
+    public int getNumberOfSeats() {
         return number_of_seats;
     }
 
-    public String getChasis_number() {
+    public String getChasisNumber() {
         return chasis_number;
     }
 
@@ -99,35 +99,35 @@ public class VehicleModel {
         return color;
     }
 
-    public String getOwner_mobile_number() {
+    public String getOwnerMobileNumber() {
         return owner_mobile_number;
     }
 
-    public String getOwner_image() {
+    public String getOwnerImage() {
         return owner_image;
     }
 
-    public String getMain_image() {
+    public String getMainImage() {
         return main_image;
     }
 
-    public String getFront_image() {
+    public String getFrontImage() {
         return front_image;
     }
 
-    public String getBack_image() {
+    public String getBackImage() {
         return back_image;
     }
 
-    public String getLeft_image() {
+    public String getLeftImage() {
         return left_image;
     }
 
-    public String getInterior_image() {
+    public String getInteriorImage() {
         return interior_image;
     }
 
-    public String getRight_image() {
+    public String getRightImage() {
         return right_image;
     }
 }

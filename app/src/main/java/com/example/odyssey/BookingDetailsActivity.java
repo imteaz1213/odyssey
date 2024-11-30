@@ -43,10 +43,10 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     private ImageView carImage;
     private TextView carModel;
     private TextView carRating;
-    private LinearLayout pickup_date_container;
-    private LinearLayout pickup_time_container;
-    private LinearLayout dropoff_date_container;
-    private LinearLayout dropoff_time_container;
+    private LinearLayout pickupDateContainer;
+    private LinearLayout pickupTimeContainer;
+    private LinearLayout dropoffDateContainer;
+    private LinearLayout dropoffTimeContainer;
     private TextView pickupDate;
     private TextView pickupTime;
     private TextView dropoffDate;
@@ -71,10 +71,10 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         driverName = findViewById(R.id.driver_name);
         driverMobile = findViewById(R.id.driver_mobile);
 
-        pickup_date_container = findViewById(R.id.pickup_date_container);
-        pickup_time_container = findViewById(R.id.pickup_time_container);
-        dropoff_date_container = findViewById(R.id.dropoff_date_container);
-        dropoff_time_container = findViewById(R.id.dropoff_time_container);
+        pickupDateContainer = findViewById(R.id.pickup_date_container);
+        pickupTimeContainer = findViewById(R.id.pickup_time_container);
+        dropoffDateContainer = findViewById(R.id.dropoff_date_container);
+        dropoffTimeContainer = findViewById(R.id.dropoff_time_container);
 
         pickupDate = findViewById(R.id.pickup_datepicker_hint);
         pickupTime = findViewById(R.id.pickup_timepicker_hint);
@@ -105,10 +105,10 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
             finish();
         }
 
-        pickup_date_container.setOnClickListener(v -> showDatePicker(pickupDate));
-        pickup_time_container.setOnClickListener(v -> showTimePicker(pickupTime));
-        dropoff_date_container.setOnClickListener(v -> showDatePicker(dropoffDate));
-        dropoff_time_container.setOnClickListener(v -> showTimePicker(dropoffTime));
+        pickupDateContainer.setOnClickListener(v -> showDatePicker(pickupDate));
+        pickupTimeContainer.setOnClickListener(v -> showTimePicker(pickupTime));
+        dropoffDateContainer.setOnClickListener(v -> showDatePicker(dropoffDate));
+        dropoffTimeContainer.setOnClickListener(v -> showTimePicker(dropoffTime));
 
         SupportMapFragment pickupMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.pickup_map);
         SupportMapFragment dropoffMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.dropoff_map);
@@ -200,15 +200,15 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
 
                     if ("true".equals(vehicleResponse.getStatus())) {
                         Glide.with(BookingDetailsActivity.this)
-                                .load(vehicleResponse.getData().getMain_image())
+                                .load(vehicleResponse.getData().getMainImage())
                                 .placeholder(R.drawable.car1)
                                 .error(R.drawable.car1)
                                 .into(carImage);
 
                         carModel.setText(vehicleResponse.getData().getModel());
-                        driverId = vehicleResponse.getData().getDriver_id();
+                        driverId = vehicleResponse.getData().getDriverId();
                         driverName.setText(vehicleResponse.getData().getName());
-                        driverMobile.setText(vehicleResponse.getData().getMobile_number());
+                        driverMobile.setText(vehicleResponse.getData().getMobileNumber());
 
                     } else {
                         Toast.makeText(BookingDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();

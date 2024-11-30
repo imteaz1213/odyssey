@@ -40,12 +40,12 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        logoutBtn = view.findViewById(R.id.logoutBtn);
-        complainBtn = view.findViewById(R.id.complainBtn);
-        leaveBtn = view.findViewById(R.id.leaveBtn);
-        historyBtn = view.findViewById(R.id.historyBtn);
-        profileName = view.findViewById(R.id.profileName);
-        mobileNumber = view.findViewById(R.id.mobileNumber);
+        profileName = view.findViewById(R.id.profile_name);
+        mobileNumber = view.findViewById(R.id.mobile_number);
+        complainBtn = view.findViewById(R.id.complain_btn);
+        leaveBtn = view.findViewById(R.id.leave_btn);
+        historyBtn = view.findViewById(R.id.history_btn);
+        logoutBtn = view.findViewById(R.id.logout_btn);
 
         sharedPreferences = requireActivity().getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE);
         bearerToken = sharedPreferences.getString("authToken", null);
@@ -53,10 +53,10 @@ public class ProfileFragment extends Fragment {
         logoutBtn.setOnClickListener(v -> logout());
         complainBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
         // leaveBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
-//        historyBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
+        // historyBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
 
         if (bearerToken == null) {
-            Toast.makeText(getContext(), "Unauthorized User", Toast.LENGTH_LONG).show();
+            Toast.makeText(requireContext(), "Unauthorized User", Toast.LENGTH_LONG).show();
             logout();
         } else {
             fetchUserProfile();
@@ -78,24 +78,24 @@ public class ProfileFragment extends Fragment {
                         profileName.setText(profileResponse.getData().getName());
                         mobileNumber.setText(profileResponse.getData().getMobileNumber());
                     } else {
-                        Toast.makeText(getContext(), profileResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), profileResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Failed to fetch profile", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), "Failed to fetch profile", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Network error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), "Network error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void logout() {
         sharedPreferences.edit().remove("authToken").apply();
-        Toast.makeText(getContext(), "Logged Out Successfully", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(getContext(), SigninActivity.class));
+        Toast.makeText(requireContext(), "Logged Out Successfully", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(requireContext(), SigninActivity.class));
         requireActivity().finish();
     }
 }

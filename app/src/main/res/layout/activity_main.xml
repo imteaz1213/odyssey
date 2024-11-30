@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/odyssey_logo" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_regular"
@@ -31,17 +31,16 @@
         app:layout_constraintTop_toBottomOf="@+id/odyssey_logo" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tag_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tag_line"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintEnd_toEndOf="@+id/app_name"
+        app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -56,6 +55,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="@+id/tag_line" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
