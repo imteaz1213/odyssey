@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
 
         homeCarItemContainer = view.findViewById(R.id.home_car_item_container);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext());
         homeCarItemContainer.setLayoutManager(layoutManager);
         carItemAdapter = new HomeCarItemAdaptar(itemList);
         homeCarItemContainer.setAdapter(carItemAdapter);
@@ -62,16 +62,16 @@ public class HomeFragment extends Fragment {
                         itemList.addAll(vehicleListResponse.getData());
                         carItemAdapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(getContext(), vehicleListResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), vehicleListResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Failed to fetch vehicles.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), "Failed to fetch vehicles.", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<VehicleListResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -29,13 +29,13 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
     public class HomeCarItemViewHolder extends RecyclerView.ViewHolder {
         private TextView homeCarItemTitle;
         private TextView carRating;
-        private ImageView home_car_item_image;
+        private ImageView homeCarItemImage;
 
         public HomeCarItemViewHolder(@NonNull View itemView) {
             super(itemView);
             homeCarItemTitle = itemView.findViewById(R.id.home_car_item_title);
             carRating = itemView.findViewById(R.id.car_rating);
-            home_car_item_image = itemView.findViewById(R.id.home_car_item_image);
+            homeCarItemImage = itemView.findViewById(R.id.home_car_item_image);
         }
     }
 
@@ -53,10 +53,10 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
         holder.homeCarItemTitle.setText(vehicle.getModel());
         holder.carRating.setText(String.valueOf(vehicle.getDriverId()));
 
-        Glide.with(holder.home_car_item_image.getContext())
+        Glide.with(holder.homeCarItemImage.getContext())
                 .load(vehicle.getMainImage()) 
                 .error(R.drawable.car1)
-                .into(holder.home_car_item_image);
+                .into(holder.homeCarItemImage);
 
         holder.itemView.setOnClickListener(v -> {
             if (String.valueOf(vehicle.getVehicleId()) != null) {
