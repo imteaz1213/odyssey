@@ -30,7 +30,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -58,7 +63,11 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     private Button bookingReqstBtn;
     private TextView driverName;
     private TextView driverMobile;
+    private TextView renterName;
+    private TextView renterMobile;
     private int driverId;
+    private TextInputLayout getNumOfPassenger, getNumOfStoppage;
+    private TextInputEditText numOfPassengerEditText, numOfStoppageEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +79,8 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         carRating = findViewById(R.id.car_rating);
         driverName = findViewById(R.id.driver_name);
         driverMobile = findViewById(R.id.driver_mobile);
+        renterName = findViewById(R.id.renter_name);
+        renterMobile = findViewById(R.id.renter_mobile);
 
         pickupDateContainer = findViewById(R.id.pickup_date_container);
         pickupTimeContainer = findViewById(R.id.pickup_time_container);
@@ -82,6 +93,12 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         dropoffTime = findViewById(R.id.dropoff_timepicker_hint);
 
         bookingReqstBtn = findViewById(R.id.advance_payment_button);
+
+        getNumOfPassenger = findViewById(R.id.get_num_of_passenger);
+        getNumOfStoppage = findViewById(R.id.get_num_of_stoppage);
+
+        numOfPassengerEditText = (TextInputEditText) getNumOfPassenger.getEditText();
+        numOfStoppageEditText = (TextInputEditText) getNumOfStoppage.getEditText();
 
         sharedPreferences = getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE);
         bearerToken = sharedPreferences.getString("authToken", null);
@@ -127,39 +144,130 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
             });
         }
 
-        int numOfPassenger = 5;
-        int numOfStoppage = 10;
 
         bookingReqstBtn.setOnClickListener(v -> {
-            String pickupDatetime = pickupDate.getText().toString() + " " + pickupTime.getText().toString();
-            String dropoffDatetime = dropoffDate.getText().toString() + " " + dropoffTime.getText().toString();
-            String pickupLocation = pickupMap != null ? pickupMap.getCameraPosition().target.toString() : "0.0,0.0";
-            String dropoffLocation = dropoffMap != null ? dropoffMap.getCameraPosition().target.toString() : "Not Selected";
+            String pickupDateStr = pickupDate.getText().toString().trim();
+            String pickupTimeStr = pickupTime.getText().toString().trim();
+            String dropoffDateStr = dropoffDate.getText().toString().trim();
+            String dropoffTimeStr = dropoffTime.getText().toString().trim();
+            String pickupLocation = pickupMap != null ? pickupMap.getCameraPosition().target.toString() : "";
+            String dropoffLocation = dropoffMap != null ? dropoffMap.getCameraPosition().target.toString() : "";
+            String numOfPassengerStr = numOfPassengerEditText.getText().toString().trim();
+            String numOfStoppageStr = numOfStoppageEditText.getText().toString().trim();
 
-//            System.out.println(
-//                    "Driver Id -> "+driverId+
-//                    "\nPickupdatetime -> " + pickupDatetime+
-//                    "\ndropoffdatetime -> "+dropoffDatetime+
-//                    "\npickuplocation -> "+pickupLocation+
-//                    "\ndropofflocation -> "+dropoffLocation+
-//                    "\nnumof passenger -> "+numOfPassenger+
-//                    "\nnumof stoppage -> "+numOfStoppage
-//            );
-            BookingRequest bookingRequest = new BookingRequest(
-                    driverId,
-                    pickupDatetime,
-                    dropoffDatetime,
-                    pickupLocation,
-                    dropoffLocation,
-                    numOfPassenger,
-                    numOfStoppage
-            );
+            boolean isValid = true;
 
-            sendBookingRequest(bookingRequest);
+            String pickupDatetime = pickupDateStr + " " + pickupTimeStr;
+            String dropoffDatetime = dropoffDateStr + " " + dropoffTimeStr;
+            String formattedPickupDatetime = "";
+            String formattedDropoffDatetime = "";
 
-            Toast.makeText(this, "Booking Req Button Clicked", Toast.LENGTH_SHORT).show();
+            try {
+                formattedPickupDatetime = convertToSqlDateTime(pickupDateStr, pickupTimeStr);
+                LocalDateTime pickupDateTime = LocalDateTime.parse(formattedPickupDatetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+                // Check if pickup datetime is in the future
+                if (pickupDateTime.isBefore(LocalDateTime.now())) {
+                    Toast.makeText(this, "Pickup date and time must be in the future.", Toast.LENGTH_LONG).show();
+                    isValid = false;
+                }
+            } catch (DateTimeParseException e) {
+                Toast.makeText(this, "Invalid pickup date or time format.", Toast.LENGTH_LONG).show();
+                isValid = false;
+            }
+
+            // Validate Dropoff Date and Time
+            try {
+                formattedDropoffDatetime = convertToSqlDateTime(dropoffDateStr, dropoffTimeStr);
+                LocalDateTime dropoffDateTime = LocalDateTime.parse(formattedDropoffDatetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+                // Ensure dropoff is after pickup
+                LocalDateTime pickupDateTime = LocalDateTime.parse(formattedPickupDatetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                if (!dropoffDateTime.isAfter(pickupDateTime)) {
+                    Toast.makeText(this, "Dropoff date and time must be after pickup.", Toast.LENGTH_LONG).show();
+                    isValid = false;
+                }
+            } catch (DateTimeParseException e) {
+                Toast.makeText(this, "Invalid dropoff date or time format.", Toast.LENGTH_LONG).show();
+                isValid = false;
+            }
+
+            // Validate Pickup Location
+            if (pickupLocation.isEmpty() || pickupLocation.equals("lat/lng: (0.0,0.0)")) {
+                Toast.makeText(this, "Please select a valid pickup location.", Toast.LENGTH_LONG).show();
+                isValid = false;
+            }
+
+            // Validate Dropoff Location
+            if (dropoffLocation.isEmpty() || dropoffLocation.equals("lat/lng: (0.0,0.0)")) {
+                Toast.makeText(this, "Please select a valid dropoff location.", Toast.LENGTH_LONG).show();
+                isValid = false;
+            }
+
+            // Validate Number of Passengers
+            if (numOfPassengerStr.isEmpty()) {
+                getNumOfPassenger.setError("Number of passengers is required.");
+                isValid = false;
+            } else {
+                try {
+                    int numOfPassenger = Integer.parseInt(numOfPassengerStr);
+                    if (numOfPassenger <= 0) {
+                        getNumOfPassenger.setError("Must be at least 1 passenger.");
+                        isValid = false;
+                    } else if (numOfPassenger > 10) { // Assuming 10 is the max
+                        getNumOfPassenger.setError("Maximum 10 passengers allowed.");
+                        isValid = false;
+                    } else {
+                        getNumOfPassenger.setError(null);
+                    }
+                } catch (NumberFormatException e) {
+                    getNumOfPassenger.setError("Enter a valid number.");
+                    isValid = false;
+                }
+            }
+
+            // Validate Number of Stoppages
+            if (numOfStoppageStr.isEmpty()) {
+                getNumOfStoppage.setError("Number of stoppages is required.");
+                isValid = false;
+            } else {
+                try {
+                    int numOfStoppage = Integer.parseInt(numOfStoppageStr);
+                    if (numOfStoppage < 0) {
+                        getNumOfStoppage.setError("Cannot be negative.");
+                        isValid = false;
+                    } else if (numOfStoppage > 5) { // Assuming 5 is the max
+                        getNumOfStoppage.setError("Maximum 5 stoppages allowed.");
+                        isValid = false;
+                    } else {
+                        getNumOfStoppage.setError(null);
+                    }
+                } catch (NumberFormatException e) {
+                    getNumOfStoppage.setError("Enter a valid number.");
+                    isValid = false;
+                }
+            }
+            
+            if (isValid) {
+                Intent intent = new Intent(v.getContext(), PaymentDetailsActivity.class);
+                intent.putExtra("DRIVER_ID", driverId);
+                intent.putExtra("PICKUP_DATETIME", formattedPickupDatetime);
+                intent.putExtra("PICKUP_DATETIME", formattedDropoffDatetime);
+                intent.putExtra("PICKUP_LOCATION", pickupLocation);
+                intent.putExtra("PICKUP_LOCATION", dropoffLocation);
+                intent.putExtra("NUMBER_OF_PASSENGER", numOfPassengerStr);
+                intent.putExtra("NUMBER_OF_STOPPAGE", numOfStoppageStr);
+                v.getContext().startActivity(intent);
+            }
         });
 
+    }
+
+    public static String convertToSqlDateTime(String date, String time) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, inputFormatter);
+        return dateTime.format(sqlFormatter);
     }
 
     private void fetchUserProfile() {
@@ -172,8 +280,8 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                 if (response.isSuccessful() && response.body() != null) {
                     ProfileResponse profileResponse = response.body();
                     if ("true".equals(profileResponse.getStatus()) && profileResponse.getData() != null) {
-//                        profileName.setText(profileResponse.getData().getName());
-//                        mobileNumber.setText(profileResponse.getData().getMobileNumber());
+                        renterName.setText(profileResponse.getData().getName());
+                        renterMobile.setText(profileResponse.getData().getMobileNumber());
                     } else {
                         Toast.makeText(BookingDetailsActivity.this, profileResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -221,30 +329,6 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
             @Override
             public void onFailure(Call<VehicleResponse> call, Throwable t) {
                 Toast.makeText(BookingDetailsActivity.this, "Failed to fetch vehicle details", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void sendBookingRequest(BookingRequest bookingRequest) {
-        ApiService apiService = RetrofitClient.getApiService();
-        Call<BookingResponse> call = apiService.createBooking("Bearer " + bearerToken, bookingRequest);
-
-        call.enqueue(new Callback<BookingResponse>() {
-            @Override
-            public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                System.out.println(response.isSuccessful());
-                Log.d("Details", String.valueOf(response.body()));
-                if (response.isSuccessful() && response.body() != null) {
-                    BookingResponse bookingResponse = response.body();
-                    Toast.makeText(BookingDetailsActivity.this, bookingResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(BookingDetailsActivity.this, "Failed to create booking", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BookingResponse> call, Throwable t) {
-                Toast.makeText(BookingDetailsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
