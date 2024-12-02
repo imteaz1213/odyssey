@@ -23,7 +23,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".UploadVehcile"
+            android:name=".UploadVehicle"
             android:exported="false" />
 
         <meta-data

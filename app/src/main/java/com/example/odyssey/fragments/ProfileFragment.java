@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.example.odyssey.MakeComplainActivity;
 import com.example.odyssey.R;
 import com.example.odyssey.SigninActivity;
-import com.example.odyssey.UploadVehcile;
+import com.example.odyssey.UploadVehicle;
 import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
 import com.example.odyssey.models.ProfileResponse;
@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment {
 
         logoutBtn.setOnClickListener(v -> logout());
         complainBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
-        vehicleBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), UploadVehcile.class)));
+        vehicleBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), UploadVehicle.class)));
         // leaveBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
         // historyBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
 

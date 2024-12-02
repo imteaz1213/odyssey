@@ -33,6 +33,7 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_license_plate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -57,6 +58,7 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_chassis_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -93,6 +95,7 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_seats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -117,6 +120,7 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_model_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -153,6 +157,7 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_milage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -177,6 +182,7 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -202,6 +208,7 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -226,11 +233,13 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
             <TextView
+                android:id="@+id/tv_owner_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hello.png" />
+                 />
 
             <Button
+                android:id="@+id/btn_owner_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/aqua_green"
@@ -248,11 +257,13 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
             <TextView
+                android:id="@+id/tv_main_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hello.png" />
+                 />
 
             <Button
+                android:id="@+id/btn_main_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/aqua_green"
@@ -270,11 +281,13 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
 
             <TextView
+                android:id="@+id/tv_front_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hello.png" />
+                 />
 
             <Button
+                android:id="@+id/btn_front_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/aqua_green"
@@ -293,11 +306,13 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout10">
 
             <TextView
+                android:id="@+id/tv_back_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hello.png" />
+                 />
 
             <Button
+                android:id="@+id/btn_back_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/aqua_green"
@@ -315,11 +330,13 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
 
             <TextView
+                android:id="@+id/tv_left_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hello.png" />
+                 />
 
             <Button
+                android:id="@+id/btn_left_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/aqua_green"
@@ -338,11 +355,13 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout12">
 
             <TextView
+                android:id="@+id/tv_right_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hello.png" />
+                 />
 
             <Button
+                android:id="@+id/btn_right_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/aqua_green"
@@ -361,11 +380,13 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout13">
 
             <TextView
+                android:id="@+id/tv_interior_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hello.png" />
+                 />
 
             <Button
+                android:id="@+id/btn_interior_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/aqua_green"
@@ -374,6 +395,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/upload_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
