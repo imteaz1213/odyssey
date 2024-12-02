@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.odyssey.MakeComplainActivity;
 import com.example.odyssey.R;
 import com.example.odyssey.SigninActivity;
+import com.example.odyssey.UploadVehcile;
 import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
 import com.example.odyssey.models.ProfileResponse;
@@ -30,6 +31,7 @@ public class ProfileFragment extends Fragment {
 
     private LinearLayout logoutBtn;
     private LinearLayout complainBtn;
+    private LinearLayout vehicleBtn;
     private LinearLayout leaveBtn;
     private LinearLayout historyBtn;
     private SharedPreferences sharedPreferences;
@@ -43,6 +45,7 @@ public class ProfileFragment extends Fragment {
         profileName = view.findViewById(R.id.profile_name);
         mobileNumber = view.findViewById(R.id.mobile_number);
         complainBtn = view.findViewById(R.id.complain_btn);
+        vehicleBtn = view.findViewById(R.id.vehicle_btn);
         leaveBtn = view.findViewById(R.id.leave_btn);
         historyBtn = view.findViewById(R.id.history_btn);
         logoutBtn = view.findViewById(R.id.logout_btn);
@@ -52,6 +55,7 @@ public class ProfileFragment extends Fragment {
 
         logoutBtn.setOnClickListener(v -> logout());
         complainBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
+        vehicleBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), UploadVehcile.class)));
         // leaveBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
         // historyBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
 
