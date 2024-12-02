@@ -9,7 +9,7 @@ public class RetrofitClient {
     public static ApiService getApiService() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://30.0.0.55/odyssey_backend/")
+                    .baseUrl("http://16.0.0.69/odyssey_backend/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
