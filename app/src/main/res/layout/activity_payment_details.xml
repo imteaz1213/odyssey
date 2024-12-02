@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingTop="16sp">
 
     <TextView
         android:id="@+id/tv_title"
@@ -171,7 +171,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_margin="16dp"
         android:orientation="horizontal">
 
         <Button
@@ -179,9 +179,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
             android:backgroundTint="@color/green"
-            android:text="Advance Payment"
+            android:text="Send Request"
             android:textColor="#000000"
             android:textStyle="bold"
             android:visibility="visible"
