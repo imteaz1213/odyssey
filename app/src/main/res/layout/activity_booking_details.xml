@@ -20,9 +20,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:gravity="start|left|center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="5sp"
+            >
 
             <TextView
                 android:id="@+id/car_model"
@@ -31,8 +34,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Toyota Axios"
-                android:textColor="#ffffff"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -40,8 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.9"
-                android:textColor="#ffffff"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -67,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pickup Date"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/pickup_date_container"
@@ -82,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:text="Select Date"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -103,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pickup Time"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/pickup_time_container"
@@ -118,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:text="Select Time"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -134,7 +135,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="5sp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -147,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dropoff Date"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/dropoff_date_container"
@@ -162,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:text="Select Date"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -183,7 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dropoff Time"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/dropoff_time_container"
@@ -198,7 +199,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:text="Select Time"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -214,18 +215,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:orientation="horizontal" >
+            android:layout_marginTop="5sp"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Select Pickup Location"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
+
                 <fragment
                     android:id="@+id/pickup_map"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -234,16 +238,18 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="5dp" >
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Select Dropoff Location"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
+
                 <fragment
                     android:id="@+id/dropoff_map"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -252,6 +258,60 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5sp"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Number of Passenger"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_num_of_passenger"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="5sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Number of Stoppage"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/get_num_of_stoppage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
 
         <!-- Owner and Renter Details -->
         <LinearLayout
@@ -275,7 +335,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="Driver"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -318,7 +378,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="Renter"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -338,7 +398,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/renter_email"
+                    android:id="@+id/renter_mobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
