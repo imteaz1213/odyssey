@@ -40,13 +40,13 @@
 
         <TableRow>
             <TextView
-                android:id="@+id/return_date_time"
+                android:id="@+id/dropoff_date_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Return Date and Time: " />
 
             <TextView
-                android:id="@+id/return_date_time_value"
+                android:id="@+id/dropoff_date_time_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="110dp"
