@@ -252,7 +252,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                 Intent intent = new Intent(v.getContext(), PaymentDetailsActivity.class);
                 intent.putExtra("DRIVER_ID", driverId);
                 intent.putExtra("PICKUP_DATETIME", formattedPickupDatetime);
-                intent.putExtra("PICKUP_DATETIME", formattedDropoffDatetime);
+                intent.putExtra("DROPOFF_DATETIME", formattedDropoffDatetime);
                 intent.putExtra("PICKUP_LOCATION", pickupLocation);
                 intent.putExtra("PICKUP_LOCATION", dropoffLocation);
                 intent.putExtra("NUMBER_OF_PASSENGER", numOfPassengerStr);
