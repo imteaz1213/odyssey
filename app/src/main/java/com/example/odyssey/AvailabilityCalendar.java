@@ -1,28 +1,32 @@
 package com.example.odyssey;
 
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.odyssey.databinding.ActivityAvailabilityCalendarBinding;
+import androidx.appcompat.widget.Toolbar;
 
 public class AvailabilityCalendar extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityAvailabilityCalendarBinding binding;
-
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_availability_calendar);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Availability Calendar");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        getOnBackPressedDispatcher().onBackPressed();
+        return true;
     }
 }
