@@ -53,6 +53,7 @@ public class ProfileFragment extends Fragment {
         bearerToken = sharedPreferences.getString("authToken", null);
 
         changePasswordBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), ChangePasswordActivity.class)));
+        logoutBtn.setOnClickListener(v -> logout());
 
         if (bearerToken == null) {
             Toast.makeText(requireContext(), "Unauthorized User", Toast.LENGTH_LONG).show();
