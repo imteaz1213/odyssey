@@ -15,36 +15,51 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.odyssey.databinding.ActivityChangePasswordBinding;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
-    private EditText passwordInput;
-    private EditText retypePasswordInput;
+    private TextInputLayout getNewPassword, getRetypePassword;
+    private TextInputEditText passwordEditText, retypePasswordEditText;
     private Button changePasswordButton;
     private SharedPreferences sharedPreferences;
     private String bearerToken;
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        passwordInput = findViewById(R.id.passwordInput);
-        retypePasswordInput = findViewById(R.id.retypePasswordInput);
-        changePasswordButton = findViewById(R.id.changePasswordButton);
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Change Password");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        getNewPassword = findViewById(R.id.get_new_password);
+        getRetypePassword = findViewById(R.id.get_retype_new_password);
+        changePasswordButton = findViewById(R.id.change_password_button);
 
         sharedPreferences = getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE);
         bearerToken = sharedPreferences.getString("authToken", null);
@@ -52,23 +67,31 @@ public class ChangePasswordActivity extends AppCompatActivity {
         changePasswordButton.setOnClickListener(v -> changePassword());
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        getOnBackPressedDispatcher().onBackPressed();
+        return true;
+    }
+
+
     private void changePassword() {
 
-        String password = passwordInput.getText().toString().trim();
-        String retypePassword = retypePasswordInput.getText().toString().trim();
+        passwordEditText = (TextInputEditText) getNewPassword.getEditText();
+        retypePasswordEditText = (TextInputEditText) getRetypePassword.getEditText();
+
+        String password = passwordEditText.getText().toString().trim();
+        String retypePassword = retypePasswordEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(password) || TextUtils.isEmpty(retypePassword)) {
             Toast.makeText(this, "Both fields are required", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Check password length
         if (password.length() < 6) {
             Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Check if passwords match
         if (!password.equals(retypePassword)) {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return;
@@ -81,6 +104,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    passwordEditText.setText(null);
+                    retypePasswordEditText.setText(null);
+
+                    getNewPassword.clearFocus();
+                    getRetypePassword.clearFocus();
+
+                    View currentFocus = getCurrentFocus();
+                    if (currentFocus != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+                    }
+
                     ApiResponse apiResponse = response.body();
                     Toast.makeText(ChangePasswordActivity.this, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
