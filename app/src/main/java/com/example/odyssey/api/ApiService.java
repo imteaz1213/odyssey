@@ -1,11 +1,13 @@
 package com.example.odyssey.api;
 
+import com.example.odyssey.models.ApiResponse;
 import com.example.odyssey.models.BookingRequest;
 import com.example.odyssey.models.BookingResponse;
 import com.example.odyssey.models.ComplaintsRequest;
 import com.example.odyssey.models.ComplaintsResponse;
 import com.example.odyssey.models.LoginRequest;
 import com.example.odyssey.models.LoginResponse;
+import com.example.odyssey.models.PasswordRequest;
 import com.example.odyssey.models.ProfileResponse;
 import com.example.odyssey.models.RegistrationRequest;
 import com.example.odyssey.models.RegistrationResponse;
@@ -40,5 +42,7 @@ public interface ApiService {
 
     @POST("complaints/make-complaints.php")
     Call<ComplaintsResponse> makeComplaints(@Header("Authorization") String authToken, @Body ComplaintsRequest complaintsRequest);
+    @POST("authentication/change-password.php")
+    Call<ApiResponse> updatePassword(@Header("Authorization") String token, @Body PasswordRequest passwordRequest );
 }
 
