@@ -2,6 +2,8 @@ package com.example.odyssey.api;
 
 import com.example.odyssey.models.BookingRequest;
 import com.example.odyssey.models.BookingResponse;
+import com.example.odyssey.models.ComplaintsRequest;
+import com.example.odyssey.models.ComplaintsResponse;
 import com.example.odyssey.models.LoginRequest;
 import com.example.odyssey.models.LoginResponse;
 import com.example.odyssey.models.ProfileResponse;
@@ -35,5 +37,8 @@ public interface ApiService {
 
     @POST("bookings/bookings-request.php")
     Call<BookingResponse> createBooking(@Header("Authorization") String authToken, @Body BookingRequest bookingRequest);
+
+    @POST("complaints/make-complaints.php")
+    Call<ComplaintsResponse> makeComplaints(@Header("Authorization") String authToken, @Body ComplaintsRequest complaintsRequest);
 }
 
