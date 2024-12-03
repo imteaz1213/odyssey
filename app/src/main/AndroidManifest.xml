@@ -23,6 +23,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AvailabilityCalendar"
+            android:exported="false"
+            android:theme="@style/Theme.Odyssey" />
+        <activity
             android:name=".ChangePasswordActivity"
             android:exported="false"
             android:theme="@style/Theme.Odyssey" />

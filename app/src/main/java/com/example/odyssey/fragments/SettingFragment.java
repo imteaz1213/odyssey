@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.odyssey.AvailabilityCalendar;
 import com.example.odyssey.ChangePasswordActivity;
 import com.example.odyssey.MakeComplainActivity;
 import com.example.odyssey.R;
@@ -31,7 +32,7 @@ public class SettingFragment extends Fragment {
         complainBtn = view.findViewById(R.id.complain_btn);
 
         vehicleBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), UploadVehicle.class)));
-//        availabilityBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), UploadVehicle.class)));
+        availabilityBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), AvailabilityCalendar.class)));
         leaveBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), TakeLeaveActivity.class)));
         complainBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
 
