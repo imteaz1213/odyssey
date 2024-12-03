@@ -46,21 +46,12 @@ public class ProfileFragment extends Fragment {
 
         profileName = view.findViewById(R.id.profile_name);
         mobileNumber = view.findViewById(R.id.mobile_number);
-        complainBtn = view.findViewById(R.id.complain_btn);
-        vehicleBtn = view.findViewById(R.id.vehicle_btn);
-        leaveBtn = view.findViewById(R.id.leave_btn);
-        historyBtn = view.findViewById(R.id.history_btn);
         logoutBtn = view.findViewById(R.id.logout_btn);
         changePasswordBtn = view.findViewById(R.id.changePasswordBtn);
 
         sharedPreferences = requireActivity().getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE);
         bearerToken = sharedPreferences.getString("authToken", null);
 
-        logoutBtn.setOnClickListener(v -> logout());
-        complainBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
-        vehicleBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), UploadVehicle.class)));
-        // leaveBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
-        // historyBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
         changePasswordBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), ChangePasswordActivity.class)));
 
         if (bearerToken == null) {
