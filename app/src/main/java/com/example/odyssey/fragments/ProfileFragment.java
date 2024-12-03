@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.odyssey.ChangePasswordActivity;
 import com.example.odyssey.MakeComplainActivity;
 import com.example.odyssey.R;
 import com.example.odyssey.SigninActivity;
@@ -34,6 +35,7 @@ public class ProfileFragment extends Fragment {
     private LinearLayout vehicleBtn;
     private LinearLayout leaveBtn;
     private LinearLayout historyBtn;
+    private LinearLayout changePasswordBtn;
     private SharedPreferences sharedPreferences;
     private String bearerToken;
     private TextView profileName, mobileNumber;
@@ -49,6 +51,7 @@ public class ProfileFragment extends Fragment {
         leaveBtn = view.findViewById(R.id.leave_btn);
         historyBtn = view.findViewById(R.id.history_btn);
         logoutBtn = view.findViewById(R.id.logout_btn);
+        changePasswordBtn = view.findViewById(R.id.changePasswordBtn);
 
         sharedPreferences = requireActivity().getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE);
         bearerToken = sharedPreferences.getString("authToken", null);
@@ -58,6 +61,7 @@ public class ProfileFragment extends Fragment {
         vehicleBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), UploadVehicle.class)));
         // leaveBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
         // historyBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), MakeComplainActivity.class)));
+        changePasswordBtn.setOnClickListener(v -> startActivity(new Intent(v.getContext(), ChangePasswordActivity.class)));
 
         if (bearerToken == null) {
             Toast.makeText(requireContext(), "Unauthorized User", Toast.LENGTH_LONG).show();
