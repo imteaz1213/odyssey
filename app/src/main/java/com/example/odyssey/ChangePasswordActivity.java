@@ -73,7 +73,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         return true;
     }
 
-
     private void changePassword() {
 
         passwordEditText = (TextInputEditText) getNewPassword.getEditText();

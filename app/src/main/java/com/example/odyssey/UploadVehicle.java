@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
@@ -47,11 +48,20 @@ public class UploadVehicle extends AppCompatActivity {
 
     private Uri ownerProfileUri, mainImageUri, frontImageUri, backImageUri, leftImageUri, rightImageUri, interiorImageUri;
     private int currentRequestCode;
-
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_vehcile);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Upload Vehicle");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         // Initialize fields
         licensePlateInputLayout = findViewById(R.id.get_license_plate);
@@ -93,6 +103,12 @@ public class UploadVehicle extends AppCompatActivity {
         // Submit Button Listener
         submitButton = findViewById(R.id.upload_btn);
         submitButton.setOnClickListener(v -> validateAndSubmitForm());
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        getOnBackPressedDispatcher().onBackPressed();
+        return true;
     }
 
     private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(

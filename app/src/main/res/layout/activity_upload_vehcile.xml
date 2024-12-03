@@ -4,13 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".UploadVehcile">
+    tools:context=".UploadVehicle">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15sp">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Odyssey"
+                android:textColor="@android:color/white"
+                android:textSize="28sp"
+                android:letterSpacing="0.1"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
@@ -18,7 +39,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -242,9 +263,11 @@
                 android:id="@+id/btn_owner_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/aqua_green"
+                android:background="@drawable/background_white_border"
+                android:textColor="@color/white"
                 android:text="Select Owner Profile Picture"
-                app:cornerRadius="5dp" />
+                app:cornerRadius="5dp"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -266,7 +289,8 @@
                 android:id="@+id/btn_main_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/aqua_green"
+                android:background="@drawable/background_white_border"
+                android:textColor="@color/white"
                 android:text="Select Main Image"
                 app:cornerRadius="5dp" />
         </LinearLayout>
@@ -290,7 +314,8 @@
                 android:id="@+id/btn_front_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/aqua_green"
+                android:background="@drawable/background_white_border"
+                android:textColor="@color/white"
                 android:text="Select Front Image"
                 app:cornerRadius="5dp" />
         </LinearLayout>
@@ -315,7 +340,8 @@
                 android:id="@+id/btn_back_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/aqua_green"
+                android:background="@drawable/background_white_border"
+                android:textColor="@color/white"
                 android:text="Select Back Image"
                 app:cornerRadius="5dp" />
         </LinearLayout>
@@ -339,7 +365,8 @@
                 android:id="@+id/btn_left_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/aqua_green"
+                android:background="@drawable/background_white_border"
+                android:textColor="@color/white"
                 android:text="Select Left Image"
                 app:cornerRadius="5dp" />
         </LinearLayout>
@@ -364,8 +391,8 @@
                 android:id="@+id/btn_right_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/aqua_green"
-                android:text="Select Right Image"
+                android:background="@drawable/background_white_border"
+                android:textColor="@color/white"             android:text="Select Right Image"
                 app:cornerRadius="5dp" />
         </LinearLayout>
 
@@ -389,7 +416,8 @@
                 android:id="@+id/btn_interior_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/aqua_green"
+                android:background="@drawable/background_white_border"
+                android:textColor="@color/white"
                 android:text="Select Interior Image"
                 app:cornerRadius="5dp" />
         </LinearLayout>
@@ -398,9 +426,10 @@
             android:id="@+id/upload_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/aqua_green"
             android:text="Upload"
             app:cornerRadius="5dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
