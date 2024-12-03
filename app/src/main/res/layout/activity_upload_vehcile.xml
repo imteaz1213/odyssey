@@ -10,14 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15sp">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <TextView
@@ -25,13 +26,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:letterSpacing="0.1"
                 android:text="Odyssey"
                 android:textColor="@android:color/white"
                 android:textSize="28sp"
-                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
+
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
@@ -256,18 +258,16 @@
             <TextView
                 android:id="@+id/tv_owner_profile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_owner_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_border"
-                android:textColor="@color/white"
                 android:text="Select Owner Profile Picture"
-                app:cornerRadius="5dp"
-                />
+                android:textColor="@color/white"
+                app:cornerRadius="5dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -282,16 +282,15 @@
             <TextView
                 android:id="@+id/tv_main_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_main_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_border"
-                android:textColor="@color/white"
                 android:text="Select Main Image"
+                android:textColor="@color/white"
                 app:cornerRadius="5dp" />
         </LinearLayout>
 
@@ -307,16 +306,15 @@
             <TextView
                 android:id="@+id/tv_front_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_front_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_border"
-                android:textColor="@color/white"
                 android:text="Select Front Image"
+                android:textColor="@color/white"
                 app:cornerRadius="5dp" />
         </LinearLayout>
 
@@ -333,16 +331,15 @@
             <TextView
                 android:id="@+id/tv_back_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_back_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_border"
-                android:textColor="@color/white"
                 android:text="Select Back Image"
+                android:textColor="@color/white"
                 app:cornerRadius="5dp" />
         </LinearLayout>
 
@@ -358,16 +355,15 @@
             <TextView
                 android:id="@+id/tv_left_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_left_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_border"
-                android:textColor="@color/white"
                 android:text="Select Left Image"
+                android:textColor="@color/white"
                 app:cornerRadius="5dp" />
         </LinearLayout>
 
@@ -384,15 +380,15 @@
             <TextView
                 android:id="@+id/tv_right_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_right_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_border"
-                android:textColor="@color/white"             android:text="Select Right Image"
+                android:text="Select Right Image"
+                android:textColor="@color/white"
                 app:cornerRadius="5dp" />
         </LinearLayout>
 
@@ -409,16 +405,15 @@
             <TextView
                 android:id="@+id/tv_interior_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_interior_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_border"
-                android:textColor="@color/white"
                 android:text="Select Interior Image"
+                android:textColor="@color/white"
                 app:cornerRadius="5dp" />
         </LinearLayout>
 
@@ -426,10 +421,12 @@
             android:id="@+id/upload_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:backgroundTint="@color/aqua_green"
             android:text="Upload"
+            android:textSize="20dp"
+            android:textColor="@color/white"
             app:cornerRadius="5dp"
-            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
