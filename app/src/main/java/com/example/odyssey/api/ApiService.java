@@ -1,5 +1,7 @@
 package com.example.odyssey.api;
 
+import com.example.odyssey.models.AmountRequest;
+import com.example.odyssey.models.AmountResponse;
 import com.example.odyssey.models.BookingListResponse;
 import com.example.odyssey.models.ApiResponse;
 import com.example.odyssey.models.BookingRequest;
@@ -89,5 +91,8 @@ public interface ApiService {
 
     @GET("availability/unavailable-dates.php")
     Call<UnavailableDateListResponse> getUnavailableDates(@Header("Authorization") String authToken);
+
+    @POST("bookings/amount.php")
+    Call<AmountResponse> checkAmount(@Header("Authorization") String authToken, @Body AmountRequest amountRequest);
 }
 

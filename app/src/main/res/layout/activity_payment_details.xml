@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="110dp"
-                android:text="18 Sept, 2024" />
+                android:text="01 Sept, 2020" />
         </TableRow>
 
         <TableRow>
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="110dp"
-                android:text="18 Sept, 2024" />
+                android:text="01 Jan, 2020" />
         </TableRow>
 
         <TableRow>
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="110dp"
-                android:text=" 5 Hour৳" />
+                android:text="00 Hour" />
         </TableRow>
 
         <TableRow>
@@ -94,90 +94,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="110dp"
-                android:text="5" />
+                android:text="00 KM" />
         </TableRow>
-    </TableLayout>
-
-    <!-- Features and Amount -->
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="1"
-        android:padding="16dp">
-
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Features"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="145dp"
-                android:text="Amount"
-                android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:id="@+id/ac_feature_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AC" />
-
-            <TextView
-                android:id="@+id/ac_feature_amount_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="145dp"
-                android:text="20*5=100 ৳" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:id="@+id/distance_feature_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Distance" />
-
-            <TextView
-                android:id="@+id/distance_feature_amount_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="145dp"
-                android:text="100*30=3000 ৳" />
-        </TableRow>
-
         <TableRow>
             <TextView
                 android:id="@+id/total_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total" />
+                android:text="Total Amount:" />
 
             <TextView
                 android:id="@+id/total_amount_value"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingStart="145dp"
-                android:text="3100 ৳" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:id="@+id/advance_amount"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Advance Amount" />
-
-            <TextView
-                android:id="@+id/advance_amount_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="145dp"
-                android:text="3100*50%=1600 ৳" />
+                android:paddingStart="110dp"
+                android:text="00 ৳" />
         </TableRow>
     </TableLayout>
 

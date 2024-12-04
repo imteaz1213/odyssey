@@ -431,21 +431,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Availability Calendar -->
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="Availability Calendar"
-                android:textStyle="bold" />
-
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
+import com.example.odyssey.models.AmountRequest;
+import com.example.odyssey.models.AmountResponse;
 import com.example.odyssey.models.ApiResponse;
 import com.example.odyssey.models.BookingRequest;
 import com.example.odyssey.models.PaymentRequest;
@@ -39,8 +41,10 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     private Button cancelBtn;
     private String bearerToken;
     private SharedPreferences sharedPreferences;
-
     private WebView webView;
+    private TextView totalDuration;
+    private TextView totalDistance;
+    private TextView totalAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,10 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         sendReqBtn = findViewById(R.id.send_req_btn);
         cancelBtn = findViewById(R.id.cancel_button);
 
+        totalDuration = findViewById(R.id.total_duration_value);
+        totalDistance = findViewById(R.id.total_distance_value);
+        totalAmount = findViewById(R.id.total_amount_value);
+
         Intent intent = getIntent();
         if (intent != null) {
             Bundle extras = intent.getExtras();
@@ -79,6 +87,8 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                 String dropoffLocation = extras.getString("DROPOFF_LOCATION", "N/A");
                 String numberOfPassengers = extras.getString("NUMBER_OF_PASSENGER", "0");
                 String numberOfStoppages = extras.getString("NUMBER_OF_STOPPAGE", "0");
+                Toast.makeText(PaymentDetailsActivity.this, "Driver -> " + driverId, Toast.LENGTH_SHORT).show();
+                setAmountDetails(new AmountRequest(driverId, pickupDatetime, dropoffDatetime, pickupLocation, dropoffLocation));
 
                 pickupDateTimeValue.setText(convertToDisplayFormat(pickupDatetime));
                 dropoffDateTimeValue.setText(convertToDisplayFormat(dropoffDatetime));
@@ -108,6 +118,30 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
+    private void setAmountDetails(AmountRequest amountRequest) {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<AmountResponse> call = apiService.checkAmount("Bearer " + bearerToken, amountRequest);
+
+        call.enqueue(new Callback<AmountResponse>() {
+            @Override
+            public void onResponse(Call<AmountResponse> call, Response<AmountResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(PaymentDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    totalDuration.setText(response.body().getDuration() + "Hour");
+                    totalDistance.setText(response.body().getDistance() + "KM");
+                    totalAmount.setText(response.body().getTotal_price() + "৳");
+                } else {
+                    Toast.makeText(PaymentDetailsActivity.this, "Failed to retrieve payment amount", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AmountResponse> call, Throwable t) {
+                Toast.makeText(PaymentDetailsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void sendBookingRequest(BookingRequest bookingRequest) {
         ApiService apiService = RetrofitClient.getApiService();
         Call<ApiResponse> call = apiService.createBooking("Bearer " + bearerToken, bookingRequest);
@@ -132,11 +166,11 @@ public class PaymentDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                System.out.println(t.getMessage());
                 Toast.makeText(PaymentDetailsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     private void makePaymentRequest(String amount) {
         ApiService apiService = RetrofitClient.getApiService();
         Call<PaymentResponse> call = apiService.makePayment(new PaymentRequest(amount));
@@ -162,7 +196,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PaymentResponse> call, Throwable t) {
                 Log.e("PaymentError", "Error while making payment request", t);
-                Toast.makeText(PaymentDetailsActivity.this, "Payment request failed! "+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PaymentDetailsActivity.this, "Payment request failed! " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
