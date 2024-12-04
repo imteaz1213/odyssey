@@ -106,6 +106,7 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, registrationResponse.getMessage(), Toast.LENGTH_LONG).show();
                     if ("true".equals(registrationResponse.isStatus())) {
                         getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE).edit().putString("authToken", registrationResponse.getToken()).apply();
+                        getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE).edit().putString("userRole", registrationResponse.getRole()).apply();
                         startActivity(new Intent(SignupActivity.this, HomeActivity.class));
                         finish();
                     }

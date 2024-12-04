@@ -76,6 +76,7 @@ public class SigninActivity extends AppCompatActivity {
                     Toast.makeText(SigninActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
                     if ("true".equals(loginResponse.isStatus())) {
                         getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE).edit().putString("authToken", loginResponse.getToken()).apply();
+                        getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE).edit().putString("userRole", loginResponse.getRole()).apply();
                         startActivity(new Intent(SigninActivity.this, HomeActivity.class));
                         finish();
                     }
