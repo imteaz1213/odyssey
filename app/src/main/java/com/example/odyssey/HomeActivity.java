@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
                 toggleToolbar(true, "Settings");
             } else if (menuItem.getItemId() == R.id.navigation_request) {
                 fragment = new RequestFragment();
-                toggleToolbar(true, "Request");
+                toggleToolbar(true, "Booking Request");
 
             } else {
                 fragment = new HomeFragment();
