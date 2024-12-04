@@ -46,6 +46,7 @@
         <Button
             android:id="@+id/accept_btn"
             android:layout_width="80dp"
+            android:padding="0dp"
             android:layout_height="40dp"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/green"
@@ -58,6 +59,7 @@
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:backgroundTint="#BD3636"
+            android:padding="0dp"
             android:text="Decline"
             android:textColor="@android:color/white"
             android:textSize="16sp" />

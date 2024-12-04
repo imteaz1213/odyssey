@@ -74,12 +74,8 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     }
     public static String convertToDisplayFormat(String datetime) {
         try {
-            // Adjust the input formatter to match the incoming format
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            // Display formatter remains the same
             DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy");
-            
-            // Parse and format the datetime
             LocalDateTime dateTime = LocalDateTime.parse(datetime, inputFormatter);
             return dateTime.format(displayFormatter);
         } catch (Exception e) {

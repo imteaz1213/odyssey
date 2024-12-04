@@ -1,5 +1,6 @@
 package com.example.odyssey.adaptars;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.odyssey.R;
 import com.example.odyssey.models.BookingModel;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAdaptar.BookingListViewHolder> {
@@ -49,8 +52,8 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
     @Override
     public void onBindViewHolder(@NonNull BookingReqListAdaptar.BookingListViewHolder holder, int position) {
         BookingModel bookingData = bookingList.get(position);
-        holder.userName.setText("Hello User");
-        holder.pickupDate.setText("14 April, 2024");
+        holder.userName.setText(bookingData.getName());
+        holder.pickupDate.setText(convertToDisplayFormat(bookingData.getPickup_datetime()));
         holder.acceptbtn.setOnClickListener(v -> {
             Toast.makeText(v.getContext(), "Accept Button Clicked", Toast.LENGTH_LONG).show();
         });
@@ -64,5 +67,16 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
         return bookingList.size();
     }
 
+    public static String convertToDisplayFormat(String datetime) {
+        try {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy");
+            LocalDateTime dateTime = LocalDateTime.parse(datetime, inputFormatter);
+            return dateTime.format(displayFormatter);
+        } catch (Exception e) {
+            Log.e("DateConversionError", "Invalid date format: " + datetime, e);
+            return "Invalid Date";
+        }
+    }
 
 }

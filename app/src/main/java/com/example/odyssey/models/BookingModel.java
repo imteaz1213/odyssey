@@ -20,8 +20,9 @@ public class BookingModel {
     private int number_of_stoppages;
 
     private String booking_status;
+    private String name;
 
-    public BookingModel(int booking_id, int driver_id, int renter_id, String pickup_datetime, String dropoff_datetime, String pickup_location, String dropoff_location, int number_of_passengers, int number_of_stoppages, String booking_status) {
+    public BookingModel(int booking_id, int driver_id, int renter_id, String pickup_datetime, String dropoff_datetime, String pickup_location, String dropoff_location, int number_of_passengers, int number_of_stoppages, String booking_status, String name) {
         this.booking_id = booking_id;
         this.driver_id = driver_id;
         this.renter_id = renter_id;
@@ -32,6 +33,10 @@ public class BookingModel {
         this.number_of_passengers = number_of_passengers;
         this.number_of_stoppages = number_of_stoppages;
         this.booking_status = booking_status;
+        this.name = name;
+    }
+    public String getName(){
+        return name;
     }
 
     public int getBooking_id() {
