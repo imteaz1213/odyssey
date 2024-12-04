@@ -15,6 +15,7 @@ import com.example.odyssey.models.ProfileResponse;
 import com.example.odyssey.models.RegistrationRequest;
 import com.example.odyssey.models.RegistrationResponse;
 import com.example.odyssey.models.TakeLeaveRequest;
+import com.example.odyssey.models.UnavailableDateListResponse;
 import com.example.odyssey.models.UploadVehicleRequest;
 import com.example.odyssey.models.UploadVehicleResponse;
 import com.example.odyssey.models.VehicleListResponse;
@@ -85,5 +86,8 @@ public interface ApiService {
 
     @POST("availability/take-leave.php")
     Call<ApiResponse> makeLeaveRequest(@Header("Authorization") String authToken, @Body TakeLeaveRequest takeLeaveRequest);
+
+    @GET("availability/unavailable-dates.php")
+    Call<UnavailableDateListResponse> getUnavailableDates(@Header("Authorization") String authToken);
 }
 
