@@ -1,7 +1,10 @@
 package com.example.odyssey;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +43,8 @@ public class CarDetailsActivity extends AppCompatActivity {
     private CarDetailsTabAdaptar tabAdapter;
     private Toolbar toolbar;
     private TextView toolbarTitle;
+    private SharedPreferences sharedPreferences;
+    private String userRole;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,12 @@ public class CarDetailsActivity extends AppCompatActivity {
             intent.putExtra("CAR_ID", carId);
             v.getContext().startActivity(intent);
         });
+
+        userRole = getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE).getString("userRole", null);
+
+        if ("driver".equals(userRole)) {
+            bookNowButton.setVisibility(View.GONE);
+        }
 
         if (carId != null) {
             try {

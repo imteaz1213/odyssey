@@ -92,8 +92,10 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                         numberOfPassengers,
                         numberOfStoppages
                 );
-
-                sendReqBtn.setOnClickListener(v -> makePaymentRequest("50"));
+                sendReqBtn.setOnClickListener(v -> {
+                    sendBookingRequest(bookingRequest);
+                });
+//                sendReqBtn.setOnClickListener(v -> makePaymentRequest("50"));
             } else {
                 Toast.makeText(this, "No booking details received.", Toast.LENGTH_SHORT).show();
                 finish();
@@ -106,6 +108,35 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
+    private void sendBookingRequest(BookingRequest bookingRequest) {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<ApiResponse> call = apiService.createBooking("Bearer " + bearerToken, bookingRequest);
+
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    Toast.makeText(PaymentDetailsActivity.this, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        String rawError = response.errorBody() != null ? response.errorBody().string() : "No error body";
+                        Log.e("ServerError", "Raw Response: " + rawError);
+                    } catch (Exception e) {
+                        Log.e("ServerError", "Error reading error body", e);
+                    }
+                    Toast.makeText(PaymentDetailsActivity.this, "Failed to create booking", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                System.out.println(t.getMessage());
+                Toast.makeText(PaymentDetailsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void makePaymentRequest(String amount) {
         ApiService apiService = RetrofitClient.getApiService();
         Call<PaymentResponse> call = apiService.makePayment(new PaymentRequest(amount));
