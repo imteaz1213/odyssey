@@ -87,7 +87,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                 String dropoffLocation = extras.getString("DROPOFF_LOCATION", "N/A");
                 String numberOfPassengers = extras.getString("NUMBER_OF_PASSENGER", "0");
                 String numberOfStoppages = extras.getString("NUMBER_OF_STOPPAGE", "0");
-                Toast.makeText(PaymentDetailsActivity.this, "Driver -> " + driverId, Toast.LENGTH_SHORT).show();
+
                 setAmountDetails(new AmountRequest(driverId, pickupDatetime, dropoffDatetime, pickupLocation, dropoffLocation));
 
                 pickupDateTimeValue.setText(convertToDisplayFormat(pickupDatetime));
