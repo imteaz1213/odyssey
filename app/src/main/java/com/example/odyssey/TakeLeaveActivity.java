@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.example.odyssey.api.ApiService;
+import com.example.odyssey.api.RetrofitClient;
+import com.example.odyssey.models.ApiResponse;
+import com.example.odyssey.models.ProfileResponse;
+import com.example.odyssey.models.TakeLeaveRequest;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +34,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TakeLeaveActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -100,13 +109,34 @@ public class TakeLeaveActivity extends AppCompatActivity {
                     return;
                 }
 
-                Toast.makeText(this, "Start: " + formattedStartDate + ", End: " + formattedEndDate, Toast.LENGTH_SHORT).show();
+                sendLeaveRequest(formattedStartDate, formattedEndDate);
             } catch (Exception e) {
                 Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
+    private void sendLeaveRequest(String startDate, String endDate) {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<ApiResponse> call = apiService.makeLeaveRequest("Bearer " + bearerToken, new TakeLeaveRequest(startDate, endDate));
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(TakeLeaveActivity.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(TakeLeaveActivity.this, "Failed to request leave", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Toast.makeText(TakeLeaveActivity.this, "An error occurred: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     public String convertToSqlDateTime(String date) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

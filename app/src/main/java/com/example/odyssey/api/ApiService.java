@@ -14,6 +14,7 @@ import com.example.odyssey.models.PaymentResponse;
 import com.example.odyssey.models.ProfileResponse;
 import com.example.odyssey.models.RegistrationRequest;
 import com.example.odyssey.models.RegistrationResponse;
+import com.example.odyssey.models.TakeLeaveRequest;
 import com.example.odyssey.models.UploadVehicleRequest;
 import com.example.odyssey.models.UploadVehicleResponse;
 import com.example.odyssey.models.VehicleListResponse;
@@ -82,5 +83,7 @@ public interface ApiService {
     @POST("payment/pay.php")
     Call<PaymentResponse> makePayment(@Body PaymentRequest paymentRequest);
 
+    @POST("availability/take-leave.php")
+    Call<ApiResponse> makeLeaveRequest(@Header("Authorization") String authToken, @Body TakeLeaveRequest takeLeaveRequest);
 }
 
