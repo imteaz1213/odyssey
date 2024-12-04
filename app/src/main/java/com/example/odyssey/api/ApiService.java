@@ -9,6 +9,8 @@ import com.example.odyssey.models.ComplaintsResponse;
 import com.example.odyssey.models.LoginRequest;
 import com.example.odyssey.models.LoginResponse;
 import com.example.odyssey.models.PasswordRequest;
+import com.example.odyssey.models.PaymentRequest;
+import com.example.odyssey.models.PaymentResponse;
 import com.example.odyssey.models.ProfileResponse;
 import com.example.odyssey.models.RegistrationRequest;
 import com.example.odyssey.models.RegistrationResponse;
@@ -76,6 +78,9 @@ public interface ApiService {
 
     @POST("complaints/make-complaints.php")
     Call<ComplaintsResponse> makeComplaints(@Header("Authorization") String authToken, @Body ComplaintsRequest complaintsRequest);
+
+    @POST("payment/pay.php")
+    Call<PaymentResponse> makePayment(@Body PaymentRequest paymentRequest);
 
 }
 
