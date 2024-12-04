@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onResponse(Call<VehicleListResponse> call, Response<VehicleListResponse> response) {
+                if (!isAdded()) return;
                 if (response.isSuccessful() && response.body() != null) {
                     VehicleListResponse vehicleListResponse = response.body();
                     if ("true".equals(vehicleListResponse.getStatus())) {
@@ -71,6 +72,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<VehicleListResponse> call, Throwable t) {
+                if (!isAdded()) return;
                 Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
