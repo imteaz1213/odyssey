@@ -3,6 +3,7 @@ package com.example.odyssey;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class AvailabilityCalendar extends AppCompatActivity {
     private TextView toolbarTitle;
     private SharedPreferences sharedPreferences;
     private String bearerToken;
+    private LinearLayout dateListLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class AvailabilityCalendar extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("Availability Calendar");
+        toolbarTitle.setText("Unavailable Dates");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -40,6 +42,7 @@ public class AvailabilityCalendar extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("AUTHENTICATION", Context.MODE_PRIVATE);
         bearerToken = sharedPreferences.getString("authToken", null);
 
+        dateListLayout = findViewById(R.id.date_list_layout);
         fetchUnavailableDateList();
 
     }
@@ -58,10 +61,15 @@ public class AvailabilityCalendar extends AppCompatActivity {
                     System.out.println(response.body().getStatus());
                     if (unavailableDateListResponse != null
                             && unavailableDateListResponse.getDateList() != null) {
-                        System.out.println(unavailableDateListResponse.getDateList());
-                        Toast.makeText(AvailabilityCalendar.this,
-                                "Total -> " + unavailableDateListResponse.getDateList().size(),
-                                Toast.LENGTH_LONG).show();
+                        dateListLayout.removeAllViews();
+
+                        for (String date : unavailableDateListResponse.getDateList()) {
+                            TextView dateTextView = new TextView(AvailabilityCalendar.this);
+                            dateTextView.setText(date);
+                            dateTextView.setTextSize(18);
+                            dateTextView.setPadding(16, 16, 16, 16);
+                            dateListLayout.addView(dateTextView);
+                        }
                     } else {
                         Toast.makeText(AvailabilityCalendar.this,
                                 "No dates available or date list is null",
@@ -80,6 +88,7 @@ public class AvailabilityCalendar extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -168,7 +168,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         finish();
     }
 
-    public static String convertToDisplayFormat(String datetime) {
+    public String convertToDisplayFormat(String datetime) {
         try {
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy");
