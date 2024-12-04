@@ -281,7 +281,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         return true;
     }
 
-    public static String convertToSqlDateTime(String date, String time) {
+    public String convertToSqlDateTime(String date, String time) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, inputFormatter);
