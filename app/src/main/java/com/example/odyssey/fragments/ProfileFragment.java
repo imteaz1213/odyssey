@@ -31,10 +31,6 @@ import retrofit2.Response;
 public class ProfileFragment extends Fragment {
 
     private LinearLayout logoutBtn;
-    private LinearLayout complainBtn;
-    private LinearLayout vehicleBtn;
-    private LinearLayout leaveBtn;
-    private LinearLayout historyBtn;
     private LinearLayout changePasswordBtn;
     private SharedPreferences sharedPreferences;
     private String bearerToken;
