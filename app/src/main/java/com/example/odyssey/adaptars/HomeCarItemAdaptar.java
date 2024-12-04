@@ -1,5 +1,7 @@
 package com.example.odyssey.adaptars;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +25,9 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
     private List<VehicleModel> vehicleList;
 
     public HomeCarItemAdaptar(List<VehicleModel> vehicleList) {
-        this.vehicleList = vehicleList;
+        if (vehicleList != null) {
+            this.vehicleList = vehicleList;
+        }
     }
 
     public class HomeCarItemViewHolder extends RecyclerView.ViewHolder {
@@ -50,28 +54,32 @@ public class HomeCarItemAdaptar extends RecyclerView.Adapter<HomeCarItemAdaptar.
     public void onBindViewHolder(@NonNull HomeCarItemAdaptar.HomeCarItemViewHolder holder, int position) {
         VehicleModel vehicle = vehicleList.get(position);
 
-        holder.homeCarItemTitle.setText(vehicle.getModel());
-        holder.carRating.setText(String.valueOf(vehicle.getDriverId()));
+        if (vehicle != null) {
+            holder.homeCarItemTitle.setText(vehicle.getModel());
+            holder.carRating.setText(String.valueOf(vehicle.getDriverId()));
 
-        Glide.with(holder.homeCarItemImage.getContext())
-                .load(vehicle.getMainImage()) 
-                .error(R.drawable.car1)
-                .into(holder.homeCarItemImage);
+            Glide.with(holder.homeCarItemImage.getContext())
+                    .load(vehicle.getMainImage())
+                    .error(R.drawable.car1)
+                    .into(holder.homeCarItemImage);
 
-        holder.itemView.setOnClickListener(v -> {
-            if (String.valueOf(vehicle.getVehicleId()) != null) {
-                Intent intent = new Intent(v.getContext(), CarDetailsActivity.class);
-                intent.putExtra("CAR_ID", String.valueOf(vehicle.getVehicleId()));
-                v.getContext().startActivity(intent);
-            } else {
-                Toast.makeText(holder.itemView.getContext(), "Vehicle ID is invalid!", Toast.LENGTH_SHORT).show();
-            }
-        });
+            holder.itemView.setOnClickListener(v -> {
+                if (String.valueOf(vehicle.getVehicleId()) != null) {
+                    Intent intent = new Intent(v.getContext(), CarDetailsActivity.class);
+                    intent.putExtra("CAR_ID", String.valueOf(vehicle.getVehicleId()));
+                    v.getContext().startActivity(intent);
+                } else {
+                    Toast.makeText(holder.itemView.getContext(), "Vehicle ID is invalid!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            Toast.makeText(holder.itemView.getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return vehicleList.size();
+        return vehicleList != null ? vehicleList.size() : 0;
     }
 }

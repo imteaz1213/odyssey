@@ -72,6 +72,7 @@ public class ProfileFragment extends Fragment {
         call.enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                if (!isAdded()) return;
                 if (response.isSuccessful() && response.body() != null) {
                     ProfileResponse profileResponse = response.body();
                     if ("true".equals(profileResponse.getStatus()) && profileResponse.getData() != null) {
@@ -87,6 +88,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                if (!isAdded()) return;
                 Toast.makeText(requireContext(), "Network error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

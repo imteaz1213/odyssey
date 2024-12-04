@@ -61,6 +61,7 @@ public class RequestFragment extends Fragment {
             @Override
             public void onResponse(Call<BookingListResponse> call, Response<BookingListResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    if (!isAdded()) return;
                     BookingListResponse bookingListResponse = response.body();
                     bookingReqListAdaptar = new BookingReqListAdaptar(bookingListResponse.getData());
                     recyclerView.setAdapter(bookingReqListAdaptar);
@@ -71,6 +72,7 @@ public class RequestFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BookingListResponse> call, Throwable t) {
+                if (!isAdded()) return;
                 Toast.makeText(getContext(), "ERROR: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

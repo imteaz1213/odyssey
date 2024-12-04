@@ -23,7 +23,9 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
     private List<BookingModel> bookingList;
 
     public BookingReqListAdaptar(List<BookingModel> bookingList) {
-        this.bookingList = bookingList;
+        if (bookingList != null) {
+            this.bookingList = bookingList;
+        }
     }
 
     @NonNull
@@ -39,6 +41,7 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
         private LinearLayout actionContainer;
         private Button acceptbtn;
         private Button declinebtn;
+
         public BookingListViewHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.user_name);
@@ -52,19 +55,25 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
     @Override
     public void onBindViewHolder(@NonNull BookingReqListAdaptar.BookingListViewHolder holder, int position) {
         BookingModel bookingData = bookingList.get(position);
-        holder.userName.setText(bookingData.getName());
-        holder.pickupDate.setText(convertToDisplayFormat(bookingData.getPickup_datetime()));
-        holder.acceptbtn.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Accept Button Clicked", Toast.LENGTH_LONG).show();
-        });
-        holder.declinebtn.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Decline Button Clicked", Toast.LENGTH_LONG).show();
-        });
+
+        if (bookingData != null) {
+            holder.userName.setText(bookingData.getName());
+            holder.pickupDate.setText(convertToDisplayFormat(bookingData.getPickup_datetime()));
+            holder.acceptbtn.setOnClickListener(v -> {
+                Toast.makeText(v.getContext(), "Accept Button Clicked", Toast.LENGTH_LONG).show();
+            });
+            holder.declinebtn.setOnClickListener(v -> {
+                Toast.makeText(v.getContext(), "Decline Button Clicked", Toast.LENGTH_LONG).show();
+            });
+        } else {
+            Toast.makeText(holder.itemView.getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return bookingList.size();
+        return bookingList != null ? bookingList.size() : 0;
     }
 
     public static String convertToDisplayFormat(String datetime) {
