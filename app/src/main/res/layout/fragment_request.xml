@@ -9,13 +9,12 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="#E0E0E0"
+        android:background="@color/aqua_green"
         android:orientation="horizontal"
         android:padding="8dp"
         android:weightSum="3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -24,8 +23,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Name"
-            android:textColor="#000000"
-            android:textSize="20sp"
+            android:textColor="#fff"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -34,8 +33,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Pickup Date"
-            android:textColor="#000000"
-            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -44,92 +43,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Action"
-            android:textColor="#000000"
-            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="16dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Hasan A"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.33" />
-
-            <!-- Second TextView -->
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="14 May, 2024"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/textView13"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.33" />
-
-            <!-- LinearLayout for Buttons -->
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/textView12"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.34">
-
-                <Button
-                    android:layout_width="55dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/green"
-                    android:padding="0dp"
-                    android:text="Accept"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <Button
-                    android:layout_width="55dp"
-                    android:layout_height="30dp"
-                    android:backgroundTint="@color/green"
-                    android:padding="0dp"
-                    android:text="Decline"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Fetching data..."
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
