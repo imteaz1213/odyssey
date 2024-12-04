@@ -146,7 +146,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         if (pickupMapFragment != null) {
             pickupMapFragment.getMapAsync(googleMap -> {
                 LatLng dhakaLocation = new LatLng(23.8103, 90.4125);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhakaLocation, 12)); // Zoom level adjusted to 12 for city view
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhakaLocation, 12));
 
                 pickupMap = googleMap;
                 setupMapClickListener(pickupMap, "Pickup");
@@ -156,7 +156,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         if (dropoffMapFragment != null) {
             dropoffMapFragment.getMapAsync(googleMap -> {
                 LatLng dhakaLocation = new LatLng(23.8103, 90.4125);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhakaLocation, 12)); // Zoom level adjusted to 12 for city view
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhakaLocation, 12));
 
                 dropoffMap = googleMap;
                 setupMapClickListener(dropoffMap, "Dropoff");
@@ -185,7 +185,6 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                 formattedPickupDatetime = convertToSqlDateTime(pickupDateStr, pickupTimeStr);
                 LocalDateTime pickupDateTime = LocalDateTime.parse(formattedPickupDatetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-                // Check if pickup datetime is in the future
                 if (pickupDateTime.isBefore(LocalDateTime.now())) {
                     Toast.makeText(this, "Pickup date and time must be in the future.", Toast.LENGTH_LONG).show();
                     isValid = false;
@@ -195,12 +194,10 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                 isValid = false;
             }
 
-            // Validate Dropoff Date and Time
             try {
                 formattedDropoffDatetime = convertToSqlDateTime(dropoffDateStr, dropoffTimeStr);
                 LocalDateTime dropoffDateTime = LocalDateTime.parse(formattedDropoffDatetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-                // Ensure dropoff is after pickup
                 LocalDateTime pickupDateTime = LocalDateTime.parse(formattedPickupDatetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 if (!dropoffDateTime.isAfter(pickupDateTime)) {
                     Toast.makeText(this, "Dropoff date and time must be after pickup.", Toast.LENGTH_LONG).show();
@@ -211,19 +208,16 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                 isValid = false;
             }
 
-            // Validate Pickup Location
             if (pickupLocation.isEmpty() || pickupLocation.equals("lat/lng: (0.0,0.0)")) {
                 Toast.makeText(this, "Please select a valid pickup location.", Toast.LENGTH_LONG).show();
                 isValid = false;
             }
 
-            // Validate Dropoff Location
             if (dropoffLocation.isEmpty() || dropoffLocation.equals("lat/lng: (0.0,0.0)")) {
                 Toast.makeText(this, "Please select a valid dropoff location.", Toast.LENGTH_LONG).show();
                 isValid = false;
             }
 
-            // Validate Number of Passengers
             if (numOfPassengerStr.isEmpty()) {
                 getNumOfPassenger.setError("Number of passengers is required.");
                 isValid = false;
@@ -233,7 +227,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                     if (numOfPassenger <= 0) {
                         getNumOfPassenger.setError("Must be at least 1 passenger.");
                         isValid = false;
-                    } else if (numOfPassenger > 10) { // Assuming 10 is the max
+                    } else if (numOfPassenger > 10) {
                         getNumOfPassenger.setError("Maximum 10 passengers allowed.");
                         isValid = false;
                     } else {
@@ -245,7 +239,6 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                 }
             }
 
-            // Validate Number of Stoppages
             if (numOfStoppageStr.isEmpty()) {
                 getNumOfStoppage.setError("Number of stoppages is required.");
                 isValid = false;
@@ -255,7 +248,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                     if (numOfStoppage < 0) {
                         getNumOfStoppage.setError("Cannot be negative.");
                         isValid = false;
-                    } else if (numOfStoppage > 5) { // Assuming 5 is the max
+                    } else if (numOfStoppage > 5) {
                         getNumOfStoppage.setError("Maximum 5 stoppages allowed.");
                         isValid = false;
                     } else {
@@ -412,7 +405,6 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         double latitude = latLng.latitude;
         double longitude = latLng.longitude;
 
-        // Latitude and longitude range for Bangladesh
         double minLatitude = 20.7433;
         double maxLatitude = 26.6234;
         double minLongitude = 88.0844;

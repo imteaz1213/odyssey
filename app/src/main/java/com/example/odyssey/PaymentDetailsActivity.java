@@ -40,7 +40,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     private String bearerToken;
     private SharedPreferences sharedPreferences;
 
-    private WebView webView; // Add WebView as a class member for handling navigation
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +62,12 @@ public class PaymentDetailsActivity extends AppCompatActivity {
             logout();
         }
 
-        // Initialize UI elements
         pickupDateTimeValue = findViewById(R.id.pickup_date_time_value);
         dropoffDateTimeValue = findViewById(R.id.dropoff_date_time_value);
 
         sendReqBtn = findViewById(R.id.send_req_btn);
         cancelBtn = findViewById(R.id.cancel_button);
 
-        // Retrieve booking details passed via intent
         Intent intent = getIntent();
         if (intent != null) {
             Bundle extras = intent.getExtras();
@@ -95,7 +93,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                         numberOfStoppages
                 );
 
-                sendReqBtn.setOnClickListener(v -> makePaymentRequest("50")); // Example amount
+                sendReqBtn.setOnClickListener(v -> makePaymentRequest("50"));
             } else {
                 Toast.makeText(this, "No booking details received.", Toast.LENGTH_SHORT).show();
                 finish();
@@ -121,7 +119,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                     String url = paymentResponse.getUrl();
 
                     if ("true".equalsIgnoreCase(status) && url != null) {
-                        openPaymentPage(url); // Redirect to payment page
+                        openPaymentPage(url);
                     } else {
                         Toast.makeText(PaymentDetailsActivity.this, message != null ? message : "Payment failed.", Toast.LENGTH_SHORT).show();
                     }
@@ -139,12 +137,12 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     }
 
     private void openPaymentPage(String url) {
-        setContentView(R.layout.activity_payment_webview); // Load WebView layout
+        setContentView(R.layout.activity_payment_webview);
         webView = findViewById(R.id.payment_webview);
 
         Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
-        webView.getSettings().setJavaScriptEnabled(true); // Enable JavaScript
-        webView.getSettings().setDomStorageEnabled(true); // Enable DOM storage
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -153,7 +151,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
             }
         });
 
-        webView.loadUrl(url); // Load payment URL
+        webView.loadUrl(url);
     }
 
 
