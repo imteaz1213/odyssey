@@ -45,6 +45,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     private TextView toolbarTitle;
     private SharedPreferences sharedPreferences;
     private String userRole;
+    private String carDescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,19 +93,25 @@ public class CarDetailsActivity extends AppCompatActivity {
             // finish();
         }
 
-        setupTabs();
+
 
     }
     private void setupTabs() {
         tabAdapter = new CarDetailsTabAdaptar(this);
-        tabAdapter.addFragment(new CarDetailsAboutFragment(), "About");
-        tabAdapter.addFragment(new CarDetailsReviewFragment(), "Review");
+        Bundle bundle = new Bundle();
+        bundle.putString("CAR_DESCRIPTION", carDescription);
+        CarDetailsAboutFragment carDetailsAboutFragment = new CarDetailsAboutFragment();
+        carDetailsAboutFragment.setArguments(bundle);
+
+        tabAdapter.addFragment(carDetailsAboutFragment, "About");
+
         viewPager.setAdapter(tabAdapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) ->
                 tab.setText(tabAdapter.getPageTitle(position))
         ).attach();
     }
+
     private void fetchVehicleById(int vehicleId) {
         ApiService apiService = RetrofitClient.getApiService();
         Call<VehicleResponse> call = apiService.getVehicleById(vehicleId);
@@ -113,6 +120,15 @@ public class CarDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<VehicleResponse> call, Response<VehicleResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     VehicleResponse vehicleResponse = response.body();
+
+                    carDescription = "Introducing a "+vehicleResponse.getData().getModel()+" vehicle that combines sophistication and reliability. Here are the details:" +
+                            "\n- Type: " +vehicleResponse.getData().getType() +
+                            "\n- License Plate Number: " +vehicleResponse.getData().getLicensePlateNumber() +
+                            "\n- Mileage: " +vehicleResponse.getData().getMileage() + "miles"+
+                            "\n- Number of Seats: " +vehicleResponse.getData().getNumberOfSeats() +
+                            "\n- Chassis Number: : " +vehicleResponse.getData().getChasisNumber() +
+                            "\n- Year: " +vehicleResponse.getData().getYear() +
+                            "\n- Color: " +vehicleResponse.getData().getColor();
 
                     if ("true".equals(vehicleResponse.getStatus())) {
                          Glide.with(CarDetailsActivity.this)
@@ -133,6 +149,7 @@ public class CarDetailsActivity extends AppCompatActivity {
                         carTitle.setText(vehicleResponse.getData().getModel());
                         driverName.setText(vehicleResponse.getData().getName());
                         dirverMobile.setText(vehicleResponse.getData().getMobileNumber());
+                        setupTabs();
 
                     } else {
                         Toast.makeText(CarDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
