@@ -1,5 +1,7 @@
 package com.example.odyssey.models;
 
+import java.util.List;
+
 public class VehicleModel {
     private int vehicle_id;
     private int driver_id;
@@ -22,8 +24,9 @@ public class VehicleModel {
     private String name;
     private String mobile_number;
     private String email;
+    private List<String> dates;
 
-    public VehicleModel(int vehicle_id, int driver_id, String type, String license_plate_number, double mileage, int number_of_seats, String chasis_number, String model, int year, String color, String owner_mobile_number, String owner_image, String main_image, String front_image, String back_image, String left_image, String interior_image, String right_image, String name, String mobile_number, String email) {
+    public VehicleModel(int vehicle_id, int driver_id, String type, String license_plate_number, double mileage, int number_of_seats, String chasis_number, String model, int year, String color, String owner_mobile_number, String owner_image, String main_image, String front_image, String back_image, String left_image, String interior_image, String right_image, String name, String mobile_number, String email, List<String> dates) {
         this.vehicle_id = vehicle_id;
         this.driver_id = driver_id;
         this.type = type;
@@ -45,6 +48,11 @@ public class VehicleModel {
         this.name = name;
         this.mobile_number = mobile_number;
         this.email = email;
+        this.dates = dates;
+    }
+
+    public List<String> getDates() {
+        return dates;
     }
 
     public String getName() {

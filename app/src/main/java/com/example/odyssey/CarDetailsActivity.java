@@ -46,6 +46,8 @@ public class CarDetailsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String userRole;
     private String carDescription;
+    private LinearLayout dateListLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,7 @@ public class CarDetailsActivity extends AppCompatActivity {
         driverName = findViewById(R.id.driver_name);
         dirverMobile = findViewById(R.id.driver_mobile);
         imageContainer = findViewById(R.id.horizontal_images_container);
+        dateListLayout = findViewById(R.id.date_list_layout);
         bookNowButton = findViewById(R.id.bottom_btn);
 
         String carId = getIntent().getStringExtra("CAR_ID");
@@ -94,8 +97,8 @@ public class CarDetailsActivity extends AppCompatActivity {
         }
 
 
-
     }
+
     private void setupTabs() {
         tabAdapter = new CarDetailsTabAdaptar(this);
         Bundle bundle = new Bundle();
@@ -121,17 +124,17 @@ public class CarDetailsActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     VehicleResponse vehicleResponse = response.body();
 
-                    carDescription = "Introducing a "+vehicleResponse.getData().getModel()+" vehicle that combines sophistication and reliability. Here are the details:" +
-                            "\n- Type: " +vehicleResponse.getData().getType() +
-                            "\n- License Plate Number: " +vehicleResponse.getData().getLicensePlateNumber() +
-                            "\n- Mileage: " +vehicleResponse.getData().getMileage() + "miles"+
-                            "\n- Number of Seats: " +vehicleResponse.getData().getNumberOfSeats() +
-                            "\n- Chassis Number: : " +vehicleResponse.getData().getChasisNumber() +
-                            "\n- Year: " +vehicleResponse.getData().getYear() +
-                            "\n- Color: " +vehicleResponse.getData().getColor();
+                    carDescription = "Introducing a " + vehicleResponse.getData().getModel() + " vehicle that combines sophistication and reliability. Here are the details:" +
+                            "\n- Type: " + vehicleResponse.getData().getType() +
+                            "\n- License Plate Number: " + vehicleResponse.getData().getLicensePlateNumber() +
+                            "\n- Mileage: " + vehicleResponse.getData().getMileage() + "miles" +
+                            "\n- Number of Seats: " + vehicleResponse.getData().getNumberOfSeats() +
+                            "\n- Chassis Number: : " + vehicleResponse.getData().getChasisNumber() +
+                            "\n- Year: " + vehicleResponse.getData().getYear() +
+                            "\n- Color: " + vehicleResponse.getData().getColor();
 
                     if ("true".equals(vehicleResponse.getStatus())) {
-                         Glide.with(CarDetailsActivity.this)
+                        Glide.with(CarDetailsActivity.this)
                                 .load(vehicleResponse.getData().getMainImage())
                                 .placeholder(R.drawable.car1)
                                 .error(R.drawable.car1)
@@ -144,12 +147,21 @@ public class CarDetailsActivity extends AppCompatActivity {
                                 vehicleResponse.getData().getLeftImage(),
                                 vehicleResponse.getData().getRightImage(),
                                 vehicleResponse.getData().getInteriorImage()
-                                );
-                        
+                        );
+
                         carTitle.setText(vehicleResponse.getData().getModel());
                         driverName.setText(vehicleResponse.getData().getName());
                         dirverMobile.setText(vehicleResponse.getData().getMobileNumber());
                         setupTabs();
+
+                        dateListLayout.removeAllViews();
+                        for (String date : vehicleResponse.getData().getDates()) {
+                            TextView dateTextView = new TextView(CarDetailsActivity.this);
+                            dateTextView.setText(date);
+                            dateTextView.setTextSize(18);
+                            dateTextView.setPadding(16, 16, 16, 16);
+                            dateListLayout.addView(dateTextView);
+                        }
 
                     } else {
                         Toast.makeText(CarDetailsActivity.this, vehicleResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -167,7 +179,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     }
 
     private void setupImageSlider(String mainImage, String frontImage, String backImage, String leftImage, String rightImage, String interiorImage) {
-        String[] imageIds = { mainImage, frontImage, backImage, leftImage, rightImage, interiorImage};
+        String[] imageIds = {mainImage, frontImage, backImage, leftImage, rightImage, interiorImage};
 
         for (String imageId : imageIds) {
             horizontalImage = new ImageView(this);
