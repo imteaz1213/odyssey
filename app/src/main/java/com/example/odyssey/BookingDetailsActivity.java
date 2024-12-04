@@ -262,13 +262,13 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
 
             if (isValid) {
                 Intent intent = new Intent(v.getContext(), PaymentDetailsActivity.class);
-                intent.putExtra("DRIVER_ID", driverId);
+                intent.putExtra("DRIVER_ID", String.valueOf(driverId));
                 intent.putExtra("PICKUP_DATETIME", formattedPickupDatetime);
                 intent.putExtra("DROPOFF_DATETIME", formattedDropoffDatetime);
                 intent.putExtra("PICKUP_LOCATION", pickupLocation);
                 intent.putExtra("DROPOFF_LOCATION", dropoffLocation);
-                intent.putExtra("NUMBER_OF_PASSENGER", numOfPassengerStr);
-                intent.putExtra("NUMBER_OF_STOPPAGE", numOfStoppageStr);
+                intent.putExtra("NUMBER_OF_PASSENGER", String.valueOf(numOfPassengerStr));
+                intent.putExtra("NUMBER_OF_STOPPAGE", String.valueOf(numOfStoppageStr));
                 v.getContext().startActivity(intent);
             }
         });

@@ -48,7 +48,7 @@ public interface ApiService {
     Call<VehicleResponse> getVehicleById(@Query("vehicleId") int vehicleId);
 
     @POST("bookings/bookings-request.php")
-    Call<BookingResponse> createBooking(@Header("Authorization") String authToken, @Body BookingRequest bookingRequest);
+    Call<ApiResponse> createBooking(@Header("Authorization") String authToken, @Body BookingRequest bookingRequest);
 
     @Multipart
     @POST("vehicle/upload-vehicle.php")
