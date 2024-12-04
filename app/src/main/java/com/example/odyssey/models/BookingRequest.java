@@ -1,15 +1,15 @@
 package com.example.odyssey.models;
 
 public class BookingRequest {
-    private int driver_id;
+    private String driver_id;
     private String pickup_datetime;
     private String dropoff_datetime;
     private String pickup_location;
     private String dropoff_location;
-    private int number_of_passengers;
-    private int number_of_stoppages;
+    private String number_of_passengers;
+    private String number_of_stoppages;
 
-    public BookingRequest(int driver_id, String pickup_datetime, String dropoff_datetime, String pickup_location, String dropoff_location, int number_of_passengers, int number_of_stoppages) {
+    public BookingRequest(String driver_id, String pickup_datetime, String dropoff_datetime, String pickup_location, String dropoff_location, String number_of_passengers, String number_of_stoppages) {
         this.driver_id = driver_id;
         this.pickup_datetime = pickup_datetime;
         this.dropoff_datetime = dropoff_datetime;
@@ -19,7 +19,7 @@ public class BookingRequest {
         this.number_of_stoppages = number_of_stoppages;
     }
 
-    public int getDriver_id() {
+    public String getDriver_id() {
         return driver_id;
     }
 
@@ -39,11 +39,11 @@ public class BookingRequest {
         return dropoff_location;
     }
 
-    public int getNumber_of_passengers() {
+    public String getNumber_of_passengers() {
         return number_of_passengers;
     }
 
-    public int getNumber_of_stoppages() {
+    public String getNumber_of_stoppages() {
         return number_of_stoppages;
     }
 }
