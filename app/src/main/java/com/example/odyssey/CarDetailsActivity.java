@@ -9,11 +9,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.example.odyssey.adaptars.CarDetailsTabAdaptar;
 import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
+import com.example.odyssey.fragments.CarDetailsAboutFragment;
+import com.example.odyssey.fragments.CarDetailsReviewFragment;
 import com.example.odyssey.models.VehicleResponse;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,14 +35,28 @@ public class CarDetailsActivity extends AppCompatActivity {
     private Button bookNowButton;
     private TextView driverName;
     private TextView dirverMobile;
-    
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private CarDetailsTabAdaptar tabAdapter;
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
 
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Vehicle Details");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         mainCarImage = findViewById(R.id.main_car_image);
         carTitle = findViewById(R.id.car_title);
+        viewPager = findViewById(R.id.view_pager_container);
+        tabLayout = findViewById(R.id.tab_container);
         driverName = findViewById(R.id.driver_name);
         dirverMobile = findViewById(R.id.driver_mobile);
         imageContainer = findViewById(R.id.horizontal_images_container);
@@ -60,8 +81,19 @@ public class CarDetailsActivity extends AppCompatActivity {
             // finish();
         }
 
-    }
+        setupTabs();
 
+    }
+    private void setupTabs() {
+        tabAdapter = new CarDetailsTabAdaptar(this);
+        tabAdapter.addFragment(new CarDetailsAboutFragment(), "About");
+        tabAdapter.addFragment(new CarDetailsReviewFragment(), "Review");
+        viewPager.setAdapter(tabAdapter);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) ->
+                tab.setText(tabAdapter.getPageTitle(position))
+        ).attach();
+    }
     private void fetchVehicleById(int vehicleId) {
         ApiService apiService = RetrofitClient.getApiService();
         Call<VehicleResponse> call = apiService.getVehicleById(vehicleId);
@@ -112,7 +144,6 @@ public class CarDetailsActivity extends AppCompatActivity {
         for (String imageId : imageIds) {
             horizontalImage = new ImageView(this);
             horizontalImage.setLayoutParams(new LinearLayout.LayoutParams(300, 150));
-            // horizontalImage.setPadding(10, 0, 10, 0);
 
             Glide.with(this)
                     .load(imageId)
@@ -128,6 +159,12 @@ public class CarDetailsActivity extends AppCompatActivity {
 
             imageContainer.addView(horizontalImage);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        getOnBackPressedDispatcher().onBackPressed();
+        return true;
     }
 
 }

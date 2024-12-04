@@ -4,10 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BookingDetailsActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:text="Odyssey"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15sp"
+        android:layout_marginTop="60dp"
         android:layout_above="@+id/bottom_btn">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200sp"
                 android:scaleType="fitXY"
-                android:src="@drawable/car_image"
+                android:src="@drawable/car1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -47,12 +67,14 @@
                 android:text="@string/car_name_title"
                 android:textSize="25sp"
                 android:textStyle="bold"
+                android:layout_marginStart="5sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/horizontal_scroll_view" />
 
             <com.google.android.material.tabs.TabLayout
-                android:visibility="gone"
+                android:layout_marginStart="5sp"
+                android:layout_marginEnd="5sp"
                 android:id="@+id/tab_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -64,6 +86,10 @@
                 android:id="@+id/view_pager_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginStart="5sp"
+                android:layout_marginEnd="5sp"
+                android:layout_marginBottom="5sp"
+                android:layout_marginTop="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tab_container" />
@@ -72,7 +98,10 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/role_driver"
+                android:text="Driver Information"
+                android:layout_marginStart="5sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginBottom="15sp"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,8 +110,9 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/userAvatar"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="5sp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/avatar"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +125,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/user_name"
                 android:textSize="20sp"
+                android:layout_marginStart="10sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/userAvatar"
@@ -106,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/user_email"
                 android:textSize="15sp"
+                android:layout_marginStart="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/userAvatar"
                 app:layout_constraintTop_toBottomOf="@+id/driver_name" />
@@ -116,7 +148,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/availability_calendar"
                 android:textSize="15sp"
+                android:layout_marginStart="5sp"
+                android:layout_marginTop="15sp"
                 android:textStyle="bold"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userAvatar" />
