@@ -188,7 +188,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_btn" />
 
     <TextView
         android:id="@+id/signin_link"
@@ -204,6 +204,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/already_have_account"
-        app:layout_constraintTop_toBottomOf="@+id/signupBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
