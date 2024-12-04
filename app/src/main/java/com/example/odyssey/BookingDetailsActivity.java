@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.odyssey.api.ApiService;
@@ -61,6 +62,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     private String bearerToken;
     private SharedPreferences sharedPreferences;
     private Button bookingReqstBtn;
+    private Button cancelButton;
     private TextView driverName;
     private TextView driverMobile;
     private TextView renterName;
@@ -68,11 +70,20 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     private int driverId;
     private TextInputLayout getNumOfPassenger, getNumOfStoppage;
     private TextInputEditText numOfPassengerEditText, numOfStoppageEditText;
-
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_details);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Booking Details");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         carImage = findViewById(R.id.car_image);
         carModel = findViewById(R.id.car_model);
@@ -93,6 +104,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         dropoffTime = findViewById(R.id.dropoff_timepicker_hint);
 
         bookingReqstBtn = findViewById(R.id.advance_payment_button);
+        cancelButton = findViewById(R.id.cancel_button);
 
         getNumOfPassenger = findViewById(R.id.get_num_of_passenger);
         getNumOfStoppage = findViewById(R.id.get_num_of_stoppage);
@@ -144,7 +156,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
             });
         }
 
-
+        cancelButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         bookingReqstBtn.setOnClickListener(v -> {
             String pickupDateStr = pickupDate.getText().toString().trim();
             String pickupTimeStr = pickupTime.getText().toString().trim();
@@ -247,7 +259,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                     isValid = false;
                 }
             }
-            
+
             if (isValid) {
                 Intent intent = new Intent(v.getContext(), PaymentDetailsActivity.class);
                 intent.putExtra("DRIVER_ID", driverId);
@@ -261,6 +273,11 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
             }
         });
 
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        getOnBackPressedDispatcher().onBackPressed();
+        return true;
     }
 
     public static String convertToSqlDateTime(String date, String time) {
