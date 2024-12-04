@@ -72,6 +72,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     private TextInputEditText numOfPassengerEditText, numOfStoppageEditText;
     private Toolbar toolbar;
     private TextView toolbarTitle;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +145,9 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
 
         if (pickupMapFragment != null) {
             pickupMapFragment.getMapAsync(googleMap -> {
+                LatLng dhakaLocation = new LatLng(23.8103, 90.4125);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhakaLocation, 12)); // Zoom level adjusted to 12 for city view
+
                 pickupMap = googleMap;
                 setupMapClickListener(pickupMap, "Pickup");
             });
@@ -151,6 +155,9 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
 
         if (dropoffMapFragment != null) {
             dropoffMapFragment.getMapAsync(googleMap -> {
+                LatLng dhakaLocation = new LatLng(23.8103, 90.4125);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dhakaLocation, 12)); // Zoom level adjusted to 12 for city view
+
                 dropoffMap = googleMap;
                 setupMapClickListener(dropoffMap, "Dropoff");
             });
@@ -274,6 +281,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         });
 
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         getOnBackPressedDispatcher().onBackPressed();
@@ -360,10 +368,14 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     private void setupMapClickListener(GoogleMap map, String mapType) {
         map.setOnMapClickListener(latLng -> {
             map.clear();
-            String message = String.format(Locale.getDefault(), "%s Map Clicked: %.4f, %.4f", mapType, latLng.latitude, latLng.longitude);
-            Toast.makeText(BookingDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
-            map.addMarker(new MarkerOptions().position(latLng).title(mapType + " Default Location"));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+            if (isWithinBangladesh(latLng)) {
+                String message = String.format(Locale.getDefault(), "%s Map Clicked: %.4f, %.4f", mapType, latLng.latitude, latLng.longitude);
+                Toast.makeText(BookingDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+                map.addMarker(new MarkerOptions().position(latLng).title(mapType + " Default Location"));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+            } else {
+                Toast.makeText(BookingDetailsActivity.this, "Selection is outside Bangladesh.", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -394,5 +406,19 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
+    }
+
+    private boolean isWithinBangladesh(LatLng latLng) {
+        double latitude = latLng.latitude;
+        double longitude = latLng.longitude;
+
+        // Latitude and longitude range for Bangladesh
+        double minLatitude = 20.7433;
+        double maxLatitude = 26.6234;
+        double minLongitude = 88.0844;
+        double maxLongitude = 92.6729;
+
+        return latitude >= minLatitude && latitude <= maxLatitude &&
+                longitude >= minLongitude && longitude <= maxLongitude;
     }
 }
