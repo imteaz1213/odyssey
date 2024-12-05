@@ -1,11 +1,15 @@
 package com.example.odyssey.adaptars;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,12 +18,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.odyssey.PaymentDetailsActivity;
+import com.example.odyssey.PaymentGatewayActivity;
 import com.example.odyssey.R;
 import com.example.odyssey.api.ApiService;
 import com.example.odyssey.api.RetrofitClient;
 import com.example.odyssey.models.ApiResponse;
 import com.example.odyssey.models.BookingListResponse;
 import com.example.odyssey.models.BookingModel;
+import com.example.odyssey.models.PaymentRequest;
+import com.example.odyssey.models.PaymentResponse;
 import com.example.odyssey.models.ProfileResponse;
 import com.example.odyssey.models.UpdateStatusRequest;
 
@@ -54,6 +62,8 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
         private Button acceptBtn;
         private Button declineBtn;
         private Button pendingBtn;
+        private WebView webView;
+
 
         public BookingListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,12 +98,15 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
                 } else if ("progress".equals(bookingData.getBooking_status())) {
                     holder.pendingBtn.setVisibility(View.VISIBLE);
                     holder.pendingBtn.setText("Pay");
-                    holder.pendingBtn.setOnClickListener(v->{
-                        Toast.makeText(holder.itemView.getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                    holder.pendingBtn.setOnClickListener(v -> {
+                        makePaymentRequest(holder, bearerToken, String.valueOf(bookingData.getBooking_id()));
                     });
-                }else if ("cancelled".equals(bookingData.getBooking_status())){
+                } else if ("cancelled".equals(bookingData.getBooking_status())) {
                     holder.declineBtn.setVisibility(View.VISIBLE);
                     holder.declineBtn.setText("Cancelled");
+                } else if ("paid".equals(bookingData.getBooking_status())) {
+                    holder.acceptBtn.setVisibility(View.VISIBLE);
+                    holder.acceptBtn.setText(bookingData.getBooking_status());
                 }
             } else if ("driver".equals(userRole)) {
                 if ("pending".equals(bookingData.getBooking_status())) {
@@ -108,9 +121,12 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
                 } else if ("progress".equals(bookingData.getBooking_status())) {
                     holder.pendingBtn.setVisibility(View.VISIBLE);
                     holder.pendingBtn.setText(bookingData.getBooking_status());
-                } else if ("cancelled".equals(bookingData.getBooking_status())){
+                } else if ("cancelled".equals(bookingData.getBooking_status())) {
                     holder.declineBtn.setVisibility(View.VISIBLE);
                     holder.declineBtn.setText("Cancelled");
+                } else if ("paid".equals(bookingData.getBooking_status())) {
+                    holder.acceptBtn.setVisibility(View.VISIBLE);
+                    holder.acceptBtn.setText(bookingData.getBooking_status());
                 }
             }
         } else {
@@ -118,6 +134,44 @@ public class BookingReqListAdaptar extends RecyclerView.Adapter<BookingReqListAd
         }
 
     }
+
+    private void makePaymentRequest(BookingListViewHolder holder, String bearerToken, String bookingId) {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<PaymentResponse> call = apiService.makePayment("Bearer " + bearerToken, new PaymentRequest(bookingId));
+        call.enqueue(new Callback<PaymentResponse>() {
+            @Override
+            public void onResponse(Call<PaymentResponse> call, Response<PaymentResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PaymentResponse paymentResponse = response.body();
+                    String status = paymentResponse.getStatus();
+                    String message = paymentResponse.getMessage();
+                    String url = paymentResponse.getUrl();
+
+                    if ("true".equalsIgnoreCase(status) && url != null) {
+                        openPaymentPage(holder, url);
+                    } else {
+                        Toast.makeText(holder.itemView.getContext(), message != null ? message : "Payment failed.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(holder.itemView.getContext(), "Unexpected response from server.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PaymentResponse> call, Throwable t) {
+                Log.e("PaymentError", "Error while making payment request", t);
+                Toast.makeText(holder.itemView.getContext(), "Payment request failed! " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void openPaymentPage(BookingListViewHolder holder, String url) {
+        Context context = holder.itemView.getContext();
+        Intent intent = new Intent(context, PaymentGatewayActivity.class);
+        intent.putExtra("paymentUrl", url);
+        context.startActivity(intent);
+    }
+
 
     private void makeUpdate(BookingListViewHolder holder, String bearerToken, UpdateStatusRequest updateStatusRequest) {
         ApiService apiService = RetrofitClient.getApiService();

@@ -85,7 +85,7 @@ public interface ApiService {
     Call<ComplaintsResponse> makeComplaints(@Header("Authorization") String authToken, @Body ComplaintsRequest complaintsRequest);
 
     @POST("payment/pay.php")
-    Call<PaymentResponse> makePayment(@Body PaymentRequest paymentRequest);
+    Call<PaymentResponse> makePayment(@Header("Authorization") String authToken, @Body PaymentRequest paymentRequest);
 
     @POST("availability/take-leave.php")
     Call<ApiResponse> makeLeaveRequest(@Header("Authorization") String authToken, @Body TakeLeaveRequest takeLeaveRequest);

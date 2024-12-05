@@ -1,18 +1,13 @@
 package com.example.odyssey.models;
 
 public class PaymentRequest {
-    private String amount;
+    private String booking_id;
 
-    public PaymentRequest(String amount) {
-        this.amount = amount;
+    public String getBooking_id() {
+        return booking_id;
     }
 
-    // Getter and Setter
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public PaymentRequest(String booking_id) {
+        this.booking_id = booking_id;
     }
 }

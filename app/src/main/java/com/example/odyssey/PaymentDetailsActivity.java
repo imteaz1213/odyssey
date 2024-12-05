@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,8 +18,6 @@ import com.example.odyssey.models.AmountRequest;
 import com.example.odyssey.models.AmountResponse;
 import com.example.odyssey.models.ApiResponse;
 import com.example.odyssey.models.BookingRequest;
-import com.example.odyssey.models.PaymentRequest;
-import com.example.odyssey.models.PaymentResponse;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,7 +36,6 @@ public class PaymentDetailsActivity extends AppCompatActivity {
     private Button cancelBtn;
     private String bearerToken;
     private SharedPreferences sharedPreferences;
-    private WebView webView;
     private TextView totalDuration;
     private TextView totalDistance;
     private TextView totalAmount;
@@ -105,7 +99,6 @@ public class PaymentDetailsActivity extends AppCompatActivity {
                 sendReqBtn.setOnClickListener(v -> {
                     sendBookingRequest(bookingRequest);
                 });
-//                sendReqBtn.setOnClickListener(v -> makePaymentRequest("50"));
             } else {
                 Toast.makeText(this, "No booking details received.", Toast.LENGTH_SHORT).show();
                 finish();
@@ -170,55 +163,6 @@ public class PaymentDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void makePaymentRequest(String amount) {
-        ApiService apiService = RetrofitClient.getApiService();
-        Call<PaymentResponse> call = apiService.makePayment(new PaymentRequest(amount));
-        call.enqueue(new Callback<PaymentResponse>() {
-            @Override
-            public void onResponse(Call<PaymentResponse> call, Response<PaymentResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    PaymentResponse paymentResponse = response.body();
-                    String status = paymentResponse.getStatus();
-                    String message = paymentResponse.getMessage();
-                    String url = paymentResponse.getUrl();
-
-                    if ("true".equalsIgnoreCase(status) && url != null) {
-                        openPaymentPage(url);
-                    } else {
-                        Toast.makeText(PaymentDetailsActivity.this, message != null ? message : "Payment failed.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(PaymentDetailsActivity.this, "Unexpected response from server.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PaymentResponse> call, Throwable t) {
-                Log.e("PaymentError", "Error while making payment request", t);
-                Toast.makeText(PaymentDetailsActivity.this, "Payment request failed! " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void openPaymentPage(String url) {
-        setContentView(R.layout.activity_payment_webview);
-        webView = findViewById(R.id.payment_webview);
-
-        Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(request.getUrl().toString());
-                return true;
-            }
-        });
-
-        webView.loadUrl(url);
-    }
-
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -27,6 +27,10 @@
             android:exported="false"
             android:theme="@style/Theme.Odyssey" />
         <activity
+            android:name=".PaymentGatewayActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Odyssey" />
+        <activity
             android:name=".ChangePasswordActivity"
             android:exported="false"
             android:theme="@style/Theme.Odyssey" />
