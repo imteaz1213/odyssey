@@ -18,6 +18,7 @@ import com.example.odyssey.models.RegistrationRequest;
 import com.example.odyssey.models.RegistrationResponse;
 import com.example.odyssey.models.TakeLeaveRequest;
 import com.example.odyssey.models.UnavailableDateListResponse;
+import com.example.odyssey.models.UpdateStatusRequest;
 import com.example.odyssey.models.UploadVehicleRequest;
 import com.example.odyssey.models.UploadVehicleResponse;
 import com.example.odyssey.models.VehicleListResponse;
@@ -94,5 +95,8 @@ public interface ApiService {
 
     @POST("bookings/amount.php")
     Call<AmountResponse> checkAmount(@Header("Authorization") String authToken, @Body AmountRequest amountRequest);
+
+    @POST("bookings/update-status.php")
+    Call<ApiResponse> updateStatus(@Header("Authorization") String authToken, @Body UpdateStatusRequest updateStatusRequest);
 }
 
